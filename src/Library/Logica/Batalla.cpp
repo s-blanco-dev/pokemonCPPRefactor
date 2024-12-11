@@ -46,6 +46,7 @@ std::string Batalla::iniciarBatalla() {
                   entrenador_1->getNombre(), entrenador_2->getNombre(), entrenadorActual->getNombre());
 }
 
+// 3 días para hacer funcionar lo más básico del metodo atacar -> mi familia me reservó un cuarto en el Vilardebó
 std::string Batalla::atacar(std::shared_ptr<Entrenador> atacante, Movimiento &ataque)
 {
     try {

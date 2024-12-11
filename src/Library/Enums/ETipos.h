@@ -4,6 +4,7 @@
 
 #ifndef ETIPOS_H
 #define ETIPOS_H
+#include <string>
 
 enum class ETipos {
     FUEGO,
@@ -25,5 +26,7 @@ enum class ETipos {
     ACERO,
     VOLADOR
 };
+
+
 
 #endif // ETIPOS_H

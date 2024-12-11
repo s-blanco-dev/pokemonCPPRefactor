@@ -18,6 +18,7 @@ Facade::Facade() {
   this->pokedexActual = Pokedex::getInstance();
   this->batallaActual = nullptr;
   this->listaEspera = vector<Entrenador>();
+  this->menuActual = new Menu();
 }
 
 Facade* Facade::getInstance(){
@@ -35,12 +36,34 @@ std::string Facade::unirBatalla(std::string nombreEnt){
 }
 
 std::string Facade::iniciarBatalla(IGenerador* gen){
- auto ent1 = std::make_shared<Entrenador>(listaEspera[0]);
- auto ent2 = std::make_shared<Entrenador>(listaEspera[1]);
+  try {
+    if (listaEspera.size() < 2) {
+      throw invalid_argument("Debe haber al menos dos entrenadores para empezar una batalla:exclamation:");
+    }
 
- batallaActual = new Batalla(ent1, ent2, gen);
- return  batallaActual->iniciarBatalla();
+    auto ent1 = std::make_shared<Entrenador>(listaEspera[0]);
+    auto ent2 = std::make_shared<Entrenador>(listaEspera[1]);
+
+    batallaActual = new Batalla(ent1, ent2, gen);
+    return  batallaActual->iniciarBatalla();
+  }
+  catch (std::exception& e) {
+    return e.what();
+  }
 }
+
+std::string Facade::mostrarPokedex() {
+  try{
+    if (pokedexActual->getPokemons().size() == 0) {
+      throw invalid_argument("La Pokedex está vacía:exclamation:");
+    }
+      return menuActual->mostrarPokedex();
+    }
+  catch (std::exception& e) {
+    return e.what();
+  }
+}
+
 
 std::string Facade::seleccionarPokemon(std::string nombrePok, std::string nombreEnt) {
   try {

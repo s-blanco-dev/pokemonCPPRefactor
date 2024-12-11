@@ -3,3 +3,57 @@
 //
 
 #include "Menu.h"
+
+#include <format>
+
+// CONSTRUCTOR
+// -------------------------
+Menu::Menu() {
+    this->pokedex = Pokedex::getInstance();
+}
+
+// METODOS PUBLICOS
+// -------------------------
+std::string Menu::mostrarPokedex() {
+    std::string mensaje = "";
+    const std::vector<Pokemon>& listaPokemons = pokedex->getPokemons();
+
+    for (auto pok: listaPokemons) {
+        int pokemonHPMax = pok.getHPMax();
+        std::string tiPokemon = tipoToString(pok.getTipo());
+
+        mensaje += std::format("- **{}** | :heart: {} **HP Max**| :label: **{}**\n", pok.getNombre(),
+                         pokemonHPMax,
+                         tiPokemon);
+    }
+
+    return mensaje;
+}
+
+// METODOS PRIVADOS
+// -------------------------
+
+// SOLUCION TEMPORAL !!!!!
+std::string Menu::tipoToString(ETipos tipo) {
+    switch (tipo) {
+        case ETipos::FUEGO: return "Fuego";
+        case ETipos::PLANTA: return "Planta";
+        case ETipos::AGUA: return "Agua";
+        case ETipos::PSIQUICO: return "Psiquo";
+        case ETipos::ELECTRICO: return "Electrico";
+        case ETipos::BICHO: return "Bicho";
+        case ETipos::HADA: return "Hada";\
+        case ETipos::VENENO: return "Veneno";
+        case ETipos::NORMAL: return "Normal";
+        case ETipos::ROCA: return "Roca";
+        case ETipos::TIERRA: return "Tierra";
+        case ETipos::HIELO: return "Hilo";
+        case ETipos::SINIESTRO: return "Sinistro";
+        case ETipos::FANTASMA: return "Fantasma";
+        case ETipos::LUCHA: return "Lucha";
+        case ETipos::DRAGON: return "Dragon";
+        case ETipos::ACERO: return "Acero";
+        case ETipos::VOLADOR: return "Volador";
+        default: return "Desconocido";
+    }
+}

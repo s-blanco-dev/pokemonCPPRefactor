@@ -11,6 +11,7 @@
 #include <string>
 #include <vector>
 
+#include "Menu.h"
 
 
 class Facade {
@@ -19,8 +20,7 @@ class Facade {
     Batalla* batallaActual;
     Pokedex* pokedexActual;
     std::vector<Entrenador> listaEspera;
-    // Menu
-    // Lista de espera
+    Menu* menuActual;
 
     Facade();
 
@@ -33,6 +33,7 @@ class Facade {
     std::string seleccionarPokemon(std::string nombrePokemon, std::string nombreEnt);
     std::string iniciarBatalla(IGenerador* generador);
     std::string atacar(std::string nombreEnt, std::string nombreMov);
+    std::string mostrarPokedex();
 };
 
 
