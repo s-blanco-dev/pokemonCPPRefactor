@@ -16,9 +16,9 @@
 class Batalla {
 private:
     // ATRIBUTOS PRIVADOS
-    Entrenador& entrenador_1;
-    Entrenador& entrenador_2;
-    Entrenador* entrenadorActual;
+    std::shared_ptr<Entrenador> entrenador_1;
+    std::shared_ptr<Entrenador> entrenador_2;
+    std::shared_ptr<Entrenador> entrenadorActual;
     Pokedex *pokedex; // Inicializo en constructor
     int contadorTurno;
     GeneradorContexto generador;
@@ -33,11 +33,12 @@ public:
     Entrenador getEntrenadorActual() const;
     void setEntrenadorActual(Entrenador &ent);
 
-    Batalla(Entrenador &ent1, Entrenador &ent2, IGenerador* gen);
+    Batalla(std::shared_ptr<Entrenador> ent1, std::shared_ptr<Entrenador> ent2, IGenerador* gen);
     std::string iniciarBatalla();
 
-    std::string atacar(Entrenador &atacante, Movimiento &ataque);
-    std::string seleccionarPokemon(Entrenador &ente, Pokemon &pok);
+    std::string atacar(std::shared_ptr<Entrenador> atacante, Movimiento &ataque);
+    std::string seleccionarPokemon(std::shared_ptr<Entrenador> ente, Pokemon &pok);
+    std::shared_ptr<Entrenador> obtenerEntrenadorPorNombre(std::string nombre);
 };
 
 

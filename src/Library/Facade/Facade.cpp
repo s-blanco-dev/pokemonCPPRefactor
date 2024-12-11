@@ -35,32 +35,51 @@ std::string Facade::unirBatalla(std::string nombreEnt){
 }
 
 std::string Facade::iniciarBatalla(IGenerador* gen){
-  std::string mensaje;
-  
- Entrenador ent1 = listaEspera[0]; 
- Entrenador ent2 = listaEspera[1]; 
+ auto ent1 = std::make_shared<Entrenador>(listaEspera[0]);
+ auto ent2 = std::make_shared<Entrenador>(listaEspera[1]);
 
  batallaActual = new Batalla(ent1, ent2, gen);
- mensaje = batallaActual->iniciarBatalla();
-
- return mensaje;
+ return  batallaActual->iniciarBatalla();
 }
 
 std::string Facade::seleccionarPokemon(std::string nombrePok, std::string nombreEnt) {
-    Entrenador* ente = buscarEntrenadorPorNombre(nombreEnt);
+  try {
+    auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
     Pokemon* pokemon = pokedexActual->getPokemonByName(nombrePok);
 
     if (pokemon == nullptr) {
-        return "El pokemon no está disponible";
+      return "El pokemon no está disponible";
     }
 
     // Pasar punteros directamente a Batalla
-    return batallaActual->seleccionarPokemon(*ente, *pokemon);
+    return batallaActual->seleccionarPokemon(ente, *pokemon);
+  }
+  catch (std::exception& e) {
+    return e.what();
+  }
 }
 
-std::string Facade::atacar(std::string nombreEnt, Movimiento movimiento) {
-  Entrenador* ente = buscarEntrenadorPorNombre(nombreEnt);
-  // A terminar
+// Bitácora del 11/12/2024
+// Las alucinaciones no dan tregüa
+// luego de 3 días de debugging, logré hacer funcionar el metodo atacar
+// Nota: NO USAR REFERENCIAS Y PUNTEROS CRUDOS. EN LO POSIBLE USAR SHARED_PTR
+std::string Facade::atacar(std::string nombreEnt, std::string nombreMov) {
+  try {
+    auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
+    if (ente == nullptr) {
+      throw std::invalid_argument("Entrenador no encontrado!");
+    }
+
+    auto ataque = buscarMovimientoPorNombre(nombreMov, *ente);
+    if (ataque == nullptr) {
+      throw std::invalid_argument("Movimiento no encontrado!");
+    }
+
+    return batallaActual->atacar(ente, *ataque);
+  }
+  catch (std::exception& e) {
+    return e.what();
+  }
 }
 
 
@@ -73,6 +92,15 @@ Entrenador* Facade::buscarEntrenadorPorNombre(std::string nombre){
     {
       return &ent;
     }
+  }
+  return nullptr;
+}
+
+std::shared_ptr<Movimiento> Facade::buscarMovimientoPorNombre(std::string nombre, Entrenador ente) {
+  std::vector<Movimiento> movs = ente.obtenerMovimientosPokemonActivo();
+  for (Movimiento &mov : movs) {
+    if (nombre == mov.getNombre())
+      return std::make_shared<Movimiento>(mov);
   }
   return nullptr;
 }

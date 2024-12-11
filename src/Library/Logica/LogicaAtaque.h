@@ -16,13 +16,13 @@ private:
   GeneradorContexto generador;
   Efectividad tablaEfectividad;
 
-  int calcularDanioBase(Pokemon atacante, Pokemon defensor, Movimiento ataque);
+  int calcularDanioBase(std::shared_ptr<Pokemon> atacante, std::shared_ptr<Pokemon> defensor, const Movimiento& ataque);
   bool esCritico();
 
     public:
     LogicaAtaque(IGenerador* gen);
 
-    std::string aplicarAtaque(Entrenador &atacante, Entrenador &defensor, Movimiento ataque);
+    std::string aplicarAtaque(std::shared_ptr<Entrenador> atacante, std::shared_ptr<Entrenador> defensor, const Movimiento& ataque);
     std::string verificarEstadoPokemon(Pokemon& pok);
 
 

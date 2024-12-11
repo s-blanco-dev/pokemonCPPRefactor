@@ -14,86 +14,87 @@ const std::string    BOT_TOKEN    = "TOKEN";
 
 
 	int main() {
-
 		// TESTS PARA NO VOLVERME LOCO
-	    /*Facade::getInstance()->unirBatalla("Hugo");
-	    Facade::getInstance()->unirBatalla("Chorro");
-	    Facade::getInstance()->iniciarBatalla(new GeneradorFijo());
+		Facade::getInstance()->unirBatalla("Hugo");
+		Facade::getInstance()->unirBatalla("Chorro");
+		Facade::getInstance()->iniciarBatalla(new GeneradorFijo());
 		std::cout << Facade::getInstance()->seleccionarPokemon("Pikachu", "Hugo") << endl;
-		*/
-
-		dpp::cluster bot(BOT_TOKEN, dpp::i_default_intents | dpp::i_message_content);
-
-	    bot.on_log(dpp::utility::cout_logger());
-
-	    // COMANDO UNIR EN BATALLA
-   bot.on_slashcommand([](const dpp::slashcommand_t& event) {
-        if (event.command.get_command_name() == "unirme") {
-            // Obtener el nombre de usuario que ejecutó el comando
-            std::string nombreUsuario = event.command.usr.username;
-
-            // Llamar a la función unirBatalla con el nombre de usuario
-            std::string respuesta = Facade::getInstance()->unirBatalla(nombreUsuario);
-            event.reply(respuesta);
-        }
-    });
-
-   // COMANDO INICIAR BATALLA
-   bot.on_slashcommand([](const dpp::slashcommand_t& event) {
-        if (event.command.get_command_name() == "batalla") {
-
-            std::string respuesta = Facade::getInstance()->iniciarBatalla(new GeneradorAleatorio());
-            event.reply(respuesta);
-        }
-    });
-
-
-	    // COMANDO SELECCIONAR Pokemon
-bot.on_slashcommand([&bot](const dpp::slashcommand_t& event) {
-    if (event.command.get_command_name() == "llamar") {
-        try {
-            std::string nombreUsuario = event.command.usr.username;
-            std::string pokemonNombre = std::get<std::string>(event.get_parameter("nombre"));
-            event.reply(Facade::getInstance()->seleccionarPokemon(pokemonNombre, nombreUsuario));
-        } catch (const std::bad_variant_access& e) {
-            event.reply("Error: El parámetro proporcionado no es un string válido.");
-        }
-    }
-});;
-
-
-bot.on_ready([&bot](const dpp::ready_t& event) {
-    if (dpp::run_once<struct register_bot_commands>()) {
-
-        // Comando 1: unirme
-        dpp::slashcommand unirme("unirme", "Unirse a la lista de espera", bot.me.id);
-
-        // Comando 2: llamar con un parámetro "nombre"
-        dpp::slashcommand llamar("llamar", "Selecciona un Pokémon", bot.me.id);
-        llamar.add_option(
-            dpp::command_option(dpp::co_string, "nombre", "Nombre del Pokémon", true) // Parámetro obligatorio
-        );
-
-	dpp::slashcommand batalla("batalla", "Inicia la batalla!", bot.me.id);
-
-        // Crear un vector de comandos
-        std::vector<dpp::slashcommand> comandos = { unirme, llamar, batalla };
-
-        // Registrar todos los comandos
-        for (auto& comando : comandos) {
-            bot.global_command_create(
-                comando,
-                [](const dpp::confirmation_callback_t& callback) {
-                    if (callback.is_error()) {
-                        std::cerr << "Error al registrar comando: " << callback.get_error().message << std::endl;
-                    } else {
-                        std::cout << "Comando registrado exitosamente: " << callback.get<dpp::slashcommand>().name << std::endl;
-                    }
-                }
-            );
-        }
-    }
-});
-
-	    bot.start(dpp::st_wait);
+		std::cout << Facade::getInstance()->seleccionarPokemon("Charizard", "Chorro") << endl;
+		std::cout << Facade::getInstance()->atacar("Hugo", "Lanzallamas") << endl;
+		std::cout << Facade::getInstance()->atacar("Hugo", "Lanzallamas") << endl;
 	}
+// 		dpp::cluster bot(BOT_TOKEN, dpp::i_default_intents | dpp::i_message_content);
+//
+// 	    bot.on_log(dpp::utility::cout_logger());
+//
+// 	    // COMANDO UNIR EN BATALLA
+//    bot.on_slashcommand([](const dpp::slashcommand_t& event) {
+//         if (event.command.get_command_name() == "unirme") {
+//             // Obtener el nombre de usuario que ejecutó el comando
+//             std::string nombreUsuario = event.command.usr.username;
+//
+//             // Llamar a la función unirBatalla con el nombre de usuario
+//             std::string respuesta = Facade::getInstance()->unirBatalla(nombreUsuario);
+//             event.reply(respuesta);
+//         }
+//     });
+//
+//    // COMANDO INICIAR BATALLA
+//    bot.on_slashcommand([](const dpp::slashcommand_t& event) {
+//         if (event.command.get_command_name() == "batalla") {
+//
+//             std::string respuesta = Facade::getInstance()->iniciarBatalla(new GeneradorAleatorio());
+//             event.reply(respuesta);
+//         }
+//     });
+//
+//
+// 	    // COMANDO SELECCIONAR Pokemon
+// bot.on_slashcommand([&bot](const dpp::slashcommand_t& event) {
+//     if (event.command.get_command_name() == "llamar") {
+//         try {
+//             std::string nombreUsuario = event.command.usr.username;
+//             std::string pokemonNombre = std::get<std::string>(event.get_parameter("nombre"));
+//             event.reply(Facade::getInstance()->seleccionarPokemon(pokemonNombre, nombreUsuario));
+//         } catch (const std::bad_variant_access& e) {
+//             event.reply("Error: El parámetro proporcionado no es un string válido.");
+//         }
+//     }
+// });;
+//
+//
+// bot.on_ready([&bot](const dpp::ready_t& event) {
+//     if (dpp::run_once<struct register_bot_commands>()) {
+//
+//         // Comando 1: unirme
+//         dpp::slashcommand unirme("unirme", "Unirse a la lista de espera", bot.me.id);
+//
+//         // Comando 2: llamar con un parámetro "nombre"
+//         dpp::slashcommand llamar("llamar", "Selecciona un Pokémon", bot.me.id);
+//         llamar.add_option(
+//             dpp::command_option(dpp::co_string, "nombre", "Nombre del Pokémon", true) // Parámetro obligatorio
+//         );
+//
+// 	dpp::slashcommand batalla("batalla", "Inicia la batalla!", bot.me.id);
+//
+//         // Crear un vector de comandos
+//         std::vector<dpp::slashcommand> comandos = { unirme, llamar, batalla };
+//
+//         // Registrar todos los comandos
+//         for (auto& comando : comandos) {
+//             bot.global_command_create(
+//                 comando,
+//                 [](const dpp::confirmation_callback_t& callback) {
+//                     if (callback.is_error()) {
+//                         std::cerr << "Error al registrar comando: " << callback.get_error().message << std::endl;
+//                     } else {
+//                         std::cout << "Comando registrado exitosamente: " << callback.get<dpp::slashcommand>().name << std::endl;
+//                     }
+//                 }
+//             );
+//         }
+//     }
+// });
+//
+// 	    bot.start(dpp::st_wait);
+// 	}

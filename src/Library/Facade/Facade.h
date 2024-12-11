@@ -18,20 +18,21 @@ class Facade {
     static Facade* instance; 
     Batalla* batallaActual;
     Pokedex* pokedexActual;
-    vector<Entrenador> listaEspera;
+    std::vector<Entrenador> listaEspera;
     // Menu
     // Lista de espera
 
     Facade();
 
     Entrenador* buscarEntrenadorPorNombre(std::string nombre);
+    std::shared_ptr<Movimiento> buscarMovimientoPorNombre(std::string nombre, Entrenador ente);
 
   public:
     static Facade* getInstance();
     std::string unirBatalla(std::string nombreEntrenador);
     std::string seleccionarPokemon(std::string nombrePokemon, std::string nombreEnt);
     std::string iniciarBatalla(IGenerador* generador);
-    std::string atacar(std::string nombreEnt, Movimiento movimiento);
+    std::string atacar(std::string nombreEnt, std::string nombreMov);
 };
 
 

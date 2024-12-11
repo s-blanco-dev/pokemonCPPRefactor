@@ -6,8 +6,6 @@
 //
 // Created by jwillmore on 12/5/24.
 //
-using namespace std;
-
 #ifndef ENTRENADOR_H
 #define ENTRENADOR_H
 #include <string>
@@ -15,29 +13,31 @@ using namespace std;
 
 class Entrenador {
 private:
-    string nombre;
-    vector<Pokemon> pokemons;
-    Pokemon pokemonActivo;
+    std::string nombre;
+    std::vector<shared_ptr<Pokemon>> pokemons;
+    std::shared_ptr<Pokemon> pokemonActivo;
     int contadorEspecial;
-    vector<IItem*> items;
+    std::vector<IItem*> items;
 
 public:
     Entrenador(string nombre);
 
-    string getNombre() const;
-    vector<Pokemon> getPokemons() const;
-    Pokemon& getPokemonActivo();
+    std::string getNombre() const;
+
+    std::vector<shared_ptr<Pokemon>> getPokemons() const;
+    std::shared_ptr<Pokemon> getPokemonActivo();
     int getContadorEspecial() const;
-    vector<IItem*> getItems() const;
+    std::vector<IItem*> getItems() const;
     bool puedeUsarEspecial() const;
 
-    void setPokemonActivo(Pokemon& pokemonActivo);
+    void setPokemonActivo(std::shared_ptr<Pokemon> pokemonActivo);
     void setContadorEspecial(int contadorEspecial);
 
     void agregarItem(IItem* item);
     void removerItem(IItem* item);
-    void agregarPokemon(const Pokemon& pokemon);
+    void agregarPokemon(std::shared_ptr<Pokemon> pokemon);
     void removerPokemon(Pokemon& pokemon);
+    std::vector<Movimiento> obtenerMovimientosPokemonActivo() const;
 };
 
 

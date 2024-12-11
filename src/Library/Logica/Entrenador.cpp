@@ -13,6 +13,7 @@
 Entrenador::Entrenador(string nombre) {
     this->nombre = nombre;
     this->items = {new SuperPocion()};
+    this->contadorEspecial = 0;
 }
 
 
@@ -22,11 +23,11 @@ string Entrenador::getNombre() const {
     return nombre;
 }
 
-vector<Pokemon> Entrenador::getPokemons() const {
+std::vector<shared_ptr<Pokemon>> Entrenador::getPokemons() const {
     return pokemons;
 }
 
-Pokemon& Entrenador::getPokemonActivo(){
+std::shared_ptr<Pokemon> Entrenador::getPokemonActivo(){
     return pokemonActivo;
 }
 
@@ -38,7 +39,7 @@ vector<IItem*> Entrenador::getItems() const {
     return items;
 }
 
-void Entrenador::setPokemonActivo(Pokemon& pokemon) {
+void Entrenador::setPokemonActivo(std::shared_ptr<Pokemon> pokemon) {
     this->pokemonActivo = pokemon;
 }
 
@@ -53,16 +54,20 @@ bool Entrenador::puedeUsarEspecial() const {
     return false;
 }
 
-void Entrenador::agregarPokemon(const Pokemon &pokemon) {
+void Entrenador::agregarPokemon(std::shared_ptr<Pokemon> pokemon) {
     pokemons.push_back(pokemon);
 }
 
 void Entrenador::removerPokemon(Pokemon &pokemon) {
     for (int i = 0; i < pokemons.size(); i++) {
-        if (pokemon.getNombre() == pokemons[i].getNombre()) {
+        if (pokemon.getNombre() == pokemons[i]->getNombre()) {
             pokemons.erase(pokemons.begin() + i);
         }
     }
+}
+
+std::vector<Movimiento> Entrenador::obtenerMovimientosPokemonActivo() const {
+    return this->pokemonActivo->getMovimientos();
 }
 
 void Entrenador::agregarItem(IItem *item) {
