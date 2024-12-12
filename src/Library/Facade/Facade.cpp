@@ -82,6 +82,12 @@ std::string Facade::seleccionarPokemon(std::string nombrePok, std::string nombre
   }
 }
 
+std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
+  auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
+  return menuActual->menuPokemonAtaque(*ente);
+}
+
+
 // Bitácora del 11/12/2024
 // Las alucinaciones no dan tregüa
 // luego de 3 días de debugging, logré hacer funcionar el metodo atacar
@@ -119,11 +125,11 @@ Entrenador* Facade::buscarEntrenadorPorNombre(std::string nombre){
   return nullptr;
 }
 
-std::shared_ptr<Movimiento> Facade::buscarMovimientoPorNombre(std::string nombre, Entrenador ente) {
-  std::vector<Movimiento> movs = ente.obtenerMovimientosPokemonActivo();
-  for (Movimiento &mov : movs) {
+Movimiento* Facade::buscarMovimientoPorNombre(std::string nombre, Entrenador ente) {
+  std::vector<Movimiento>& movs = ente.obtenerMovimientosPokemonActivo(); // ME HABÍA OLVIDADO DE PONER EL OPERADOR DE REFERENCIACIÓN (&)
+  for (auto &mov : movs) {
     if (nombre == mov.getNombre())
-      return std::make_shared<Movimiento>(mov);
+      return &mov;
   }
   return nullptr;
 }

@@ -47,10 +47,10 @@ std::string Batalla::iniciarBatalla() {
 }
 
 // 3 días para hacer funcionar lo más básico del metodo atacar -> mi familia me reservó un cuarto en el Vilardebó
-std::string Batalla::atacar(std::shared_ptr<Entrenador> atacante, Movimiento &ataque)
+std::string Batalla::atacar(const std::shared_ptr<Entrenador> &atacante, Movimiento& ataque)
 {
     try {
-        std::string mensaje = "";
+        std::string mensaje;
         std::shared_ptr<Entrenador> defensor = entrenador_1;
 
         if (!esTurnoDe(*atacante)) {
@@ -106,7 +106,7 @@ std::string Batalla::atacar(std::shared_ptr<Entrenador> atacante, Movimiento &at
 // Se selecciona Pikachu pero mágicamente se convierte en Charizard
 // PD: lo solucioné, nuevamente los punteros y referencias me generaron un aneurisma
 
-std::string Batalla::seleccionarPokemon(std::shared_ptr<Entrenador> ente, Pokemon &pok) {
+std::string Batalla::seleccionarPokemon(const std::shared_ptr<Entrenador> &ente, Pokemon &pok) {
     auto copiaPokemon = std::make_shared<Pokemon>(pok);
 
     if (pokedex->getPokemonByName(pok.getNombre()) == nullptr) {

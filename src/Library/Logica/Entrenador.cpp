@@ -66,7 +66,7 @@ void Entrenador::removerPokemon(Pokemon &pokemon) {
     }
 }
 
-std::vector<Movimiento> Entrenador::obtenerMovimientosPokemonActivo() const {
+std::vector<Movimiento>& Entrenador::obtenerMovimientosPokemonActivo() {
     return this->pokemonActivo->getMovimientos();
 }
 

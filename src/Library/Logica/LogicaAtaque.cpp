@@ -15,12 +15,11 @@
 // -------------------------
 LogicaAtaque::LogicaAtaque(IGenerador* gen):
 generador(gen) {
-  this->tablaEfectividad = Efectividad();
 }
 
 // METODOS PUBLICOS
 // -------------------------
-std::string LogicaAtaque::aplicarAtaque(std::shared_ptr<Entrenador> atacante, std::shared_ptr<Entrenador> defensor, const Movimiento& ataque) {
+std::string LogicaAtaque::aplicarAtaque(const std::shared_ptr<Entrenador> &atacante, const std::shared_ptr<Entrenador> &defensor, const Movimiento& ataque) {
     // Usamos std::shared_ptr para gestionar la propiedad de los Pokémon activos
     auto pokemonAtaque = atacante->getPokemonActivo();
     auto pokemonDefensa = defensor->getPokemonActivo();
@@ -47,7 +46,7 @@ std::string LogicaAtaque::aplicarAtaque(std::shared_ptr<Entrenador> atacante, st
 // METODOS PRIVADOS
 // -------------------------
 
-int LogicaAtaque::calcularDanioBase(std::shared_ptr<Pokemon> atacante, std::shared_ptr<Pokemon> defensor, const Movimiento& ataque) {
+int LogicaAtaque::calcularDanioBase(const std::shared_ptr<Pokemon> &atacante, const std::shared_ptr<Pokemon> &defensor, const Movimiento& ataque) {
     int valorAtaquePokemon = atacante->getValorAtaque();
     int valorDefensaPokemon = defensor->getValorDefensa();
 
@@ -62,7 +61,7 @@ int LogicaAtaque::calcularDanioBase(std::shared_ptr<Pokemon> atacante, std::shar
     }
 
     int calculo = (ataque.getDanio() * valorAtaquePokemon *
-                   tablaEfectividad.getEfectividad(atacante->getTipo(), defensor->getTipo())) / valorDefensaPokemon;
+                   Efectividad::getEfectividad(atacante->getTipo(), defensor->getTipo())) / valorDefensaPokemon;
 
     return calculo;
 }

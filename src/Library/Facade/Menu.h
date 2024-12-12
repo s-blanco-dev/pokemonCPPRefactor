@@ -11,15 +11,15 @@
 class Menu {
 private:
     Pokedex* pokedex;
-
     static std::string tipoToString(ETipos tipo);
+    static std::string estadoToString(EEstado estado);
 
-    public:
+public:
     Menu();
 
     std::string mostrarPokedex();
     std::string listarPokemonsEntrenador(const Entrenador& ente);
-    std::string menuPokemonAtaque(const Entrenador& ente);
+    std::string menuPokemonAtaque(Entrenador& ente);
 };
 
 

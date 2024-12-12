@@ -25,7 +25,8 @@ class Facade {
     Facade();
 
     Entrenador* buscarEntrenadorPorNombre(std::string nombre);
-    std::shared_ptr<Movimiento> buscarMovimientoPorNombre(std::string nombre, Entrenador ente);
+
+    static Movimiento* buscarMovimientoPorNombre(std::string nombre, Entrenador ente);
 
   public:
     static Facade* getInstance();
@@ -34,6 +35,7 @@ class Facade {
     std::string iniciarBatalla(IGenerador* generador);
     std::string atacar(std::string nombreEnt, std::string nombreMov);
     std::string mostrarPokedex();
+    std::string desplegarMenuAtaque(std::string nombreEnt);
 };
 
 

@@ -14,15 +14,14 @@
 class LogicaAtaque {
 private:
   GeneradorContexto generador;
-  Efectividad tablaEfectividad;
 
-  int calcularDanioBase(std::shared_ptr<Pokemon> atacante, std::shared_ptr<Pokemon> defensor, const Movimiento& ataque);
+  int calcularDanioBase(const std::shared_ptr<Pokemon> &atacante, const std::shared_ptr<Pokemon> &defensor, const Movimiento& ataque);
   bool esCritico();
 
     public:
     LogicaAtaque(IGenerador* gen);
 
-    std::string aplicarAtaque(std::shared_ptr<Entrenador> atacante, std::shared_ptr<Entrenador> defensor, const Movimiento& ataque);
+    std::string aplicarAtaque(const std::shared_ptr<Entrenador> &atacante, const std::shared_ptr<Entrenador> &defensor, const Movimiento& ataque);
     std::string verificarEstadoPokemon(Pokemon& pok);
 
 

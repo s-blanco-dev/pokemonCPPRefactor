@@ -36,7 +36,16 @@ ETipos Pokemon::getTipo() const{
     return this->tipo;
 }
 
-vector<Movimiento> Pokemon::getMovimientos() const {
+EEstado Pokemon::getEstado() const {
+    return this->estado;
+}
+
+void Pokemon::setEstado(EEstado estado) {
+    this->estado = estado;
+}
+
+
+vector<Movimiento>& Pokemon::getMovimientos() {
     return this->movimientos;
 }
 

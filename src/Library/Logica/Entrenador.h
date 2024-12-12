@@ -37,7 +37,7 @@ public:
     void removerItem(IItem* item);
     void agregarPokemon(std::shared_ptr<Pokemon> pokemon);
     void removerPokemon(Pokemon& pokemon);
-    std::vector<Movimiento> obtenerMovimientosPokemonActivo() const;
+    std::vector<Movimiento>& obtenerMovimientosPokemonActivo();
 };
 
 

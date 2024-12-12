@@ -24,6 +24,7 @@ class Pokemon {
     int valorDefensaEspecial;
     vector<Movimiento> movimientos;
     ETipos tipo;
+    EEstado estado;
 
     public:
 
@@ -39,7 +40,9 @@ class Pokemon {
     int getValorAtaqueEspecial() const;
     int getValorDefensaEspecial() const;
     ETipos getTipo() const;
-    vector<Movimiento> getMovimientos() const;
+    EEstado getEstado() const;
+    void setEstado(EEstado estado);
+    vector<Movimiento>& getMovimientos();
 
     // CONSTRUCTOR
     Pokemon();
