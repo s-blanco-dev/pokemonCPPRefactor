@@ -29,8 +29,8 @@ std::string Menu::menuPokemonAtaque(Entrenador &entrenador) {
   std::shared_ptr<Pokemon> pokemonActivo = entrenador.getPokemonActivo();
 
   // Información de salud del Pokémon activo
-  int pokemonHP = static_cast<int>(pokemonActivo->getHP());
-  int pokemonHPMax = static_cast<int>(pokemonActivo->getHPMax());
+  int pokemonHP = pokemonActivo->getHP();
+  int pokemonHPMax = pokemonActivo->getHPMax();
 
   // Estado del Pokémon activo
   std::string estadoPokemon =

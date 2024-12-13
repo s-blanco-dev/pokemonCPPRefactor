@@ -41,7 +41,7 @@ public:
                                  Pokemon &pok);
   std::shared_ptr<Entrenador> obtenerEntrenadorPorNombre(std::string nombre);
 
-  bool esTurnoDe(Entrenador &entrenador);
+  bool esTurnoDe(const Entrenador &entrenador);
 };
 
 #endif // BATALLA_H

@@ -15,8 +15,16 @@ add_executable(pokemonCppRefactor src/Library/main.cpp
         src/Library/Logica/Movimiento.h
         src/Library/Enums/EEstado.h
         src/Library/Movimientos/Fuego/Lanzallamas.cpp
-        src/Library/Pokemons/Pikachu.h
         src/Library/Movimientos/Fuego/Lanzallamas.h
+        src/Library/Movimientos/Agua/Hidropulso.cpp
+        src/Library/Movimientos/Agua/Hidropulso.h
+        src/Library/Movimientos/Electrico/BolaVoltio.cpp
+        src/Library/Movimientos/Electrico/BolaVoltio.h
+        src/Library/Movimientos/Electrico/PlacajeElectrico.cpp
+        src/Library/Movimientos/Electrico/PlacajeElectrico.h
+        src/Library/Movimientos/Electrico/Rayo.cpp
+        src/Library/Movimientos/Electrico/Rayo.h
+        src/Library/Pokemons/Pikachu.h
         src/Library/Pokemons/Charizard.cpp
         src/Library/Pokemons/Charizard.h
         src/Library/Logica/Entrenador.cpp

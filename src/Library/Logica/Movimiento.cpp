@@ -4,49 +4,28 @@
 
 #include "Movimiento.h"
 
-#include "../Movimientos/Fuego/Lanzallamas.h"
-
 // Getters
-std::string Movimiento::getNombre() const {
-    return nombre;
-}
+std::string Movimiento::getNombre() const { return nombre; }
 
-ETipos Movimiento::getTipo() const {
-    return tipo;
-}
+ETipos Movimiento::getTipo() const { return tipo; }
 
-double Movimiento::getDanio() const {
-    return danio;
-}
+double Movimiento::getDanio() const { return danio; }
 
-int Movimiento::getPP() const {
-    return PP;
-}
+int Movimiento::getPP() const { return PP; }
 
-int Movimiento::getCurrentPP() const {
-    return currentPP;
-}
+int Movimiento::getCurrentPP() const { return currentPP; }
 
-bool Movimiento::esEspecial() const {
-    return especial;
-}
+bool Movimiento::esEspecial() const { return especial; }
 
-double Movimiento::getPrecision() const {
-    return precision;
-}
+double Movimiento::getPrecision() const { return precision; }
 
-EEstado Movimiento::getEfecto() const {
-    return efecto;
-}
+EEstado Movimiento::getEfecto() const { return efecto; }
 
 // CONSTRUCTOR
 Movimiento::Movimiento() {
-    this->especial = false;
-    this->efecto = EEstado::NORMAL;
+  this->especial = false;
+  this->efecto = EEstado::NORMAL;
 }
-
 
 // Setter
-void Movimiento::setCurrentPP(int currentPP) {
-    this->currentPP = currentPP;
-}
+void Movimiento::setCurrentPP(int currentPP) { this->currentPP = currentPP; }

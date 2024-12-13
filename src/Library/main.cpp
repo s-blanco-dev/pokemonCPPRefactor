@@ -4,11 +4,12 @@
 #include <dpp/dpp.h>
 #include <iostream>
 
+#include "Generador/GeneradorAleatorio.h"
 #include "Generador/GeneradorFijo.h"
 
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-const std::string BOT_TOKEN = "TOKEN";
+// const std::string BOT_TOKEN = "TOKEN";
 
 int main() {
   // TESTS PARA NO VOLVERME LOCO
@@ -21,11 +22,10 @@ int main() {
   std::cout << Facade::getInstance()->seleccionarPokemon("Charizard", "Chorro")
             << endl;
   std::cout << Facade::getInstance()->desplegarMenuAtaque("Hugo") << std::endl;
-  std::cout << Facade::getInstance()->atacar("Hugo", "Lanzallamas") << endl;
+  std::cout << Facade::getInstance()->atacar("Hugo", "Rayo") << endl;
   std::cout << Facade::getInstance()->desplegarMenuAtaque("Chorro")
             << std::endl;
   std::cout << Facade::getInstance()->atacar("Chorro", "Lanzallamas") << endl;
-  std::cout << Facade::getInstance()->atacar("Hugo", "Lanzallamas") << endl;
 }
 
 // 		dpp::cluster bot(BOT_TOKEN, dpp::i_default_intents |

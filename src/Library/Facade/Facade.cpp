@@ -4,6 +4,7 @@
 
 #include "Facade.h"
 #include <format>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -84,6 +85,12 @@ std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
   try {
     auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
 
+    if (ente->getPokemonActivo() == nullptr) {
+      throw std::invalid_argument(
+          format("No tienes ningún pokemon activo, {}:exclamation:",
+                 ente->getNombre()));
+    }
+
     if (!batallaActual->esTurnoDe(*ente)) {
       throw std::invalid_argument(
           format("No es tu turno, {}:exclamation:", nombreEnt));
@@ -102,6 +109,12 @@ std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
 std::string Facade::atacar(std::string nombreEnt, std::string nombreMov) {
   try {
     auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
+
+    if (ente->getPokemonActivo() == nullptr) {
+      throw std::invalid_argument(
+          format("No tienes ningún pokemon activo, {}:exclamation:",
+                 ente->getNombre()));
+    }
 
     auto ataque = buscarMovimientoPorNombre(nombreMov, *ente);
     if (ataque == nullptr) {
