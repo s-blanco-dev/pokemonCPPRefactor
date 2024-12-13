@@ -14,7 +14,10 @@ Pokedex *Pokedex::instance = nullptr;
 
 // CONSTRUCTOR PRIVADO
 Pokedex::Pokedex() {
-  this->pokemons = {Pikachu(), Charizard(), Aurorus(), Gyarados()};
+  this->pokemons.push_back(Pikachu());
+  this->pokemons.push_back(Charizard());
+  this->pokemons.push_back(Aurorus());
+  this->pokemons.push_back(Gyarados());
   // AGREGAR RESTANTES
 }
 

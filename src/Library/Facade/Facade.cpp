@@ -91,6 +91,12 @@ std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
                  ente->getNombre()));
     }
 
+    if (ente->getPokemonActivo()->isDebil()) {
+      throw std::invalid_argument(
+          format(":prohibited: {} está debilitado :prohibited:",
+                 ente->getPokemonActivo()->getNombre()));
+    }
+
     if (!batallaActual->esTurnoDe(*ente)) {
       throw std::invalid_argument(
           format("No es tu turno, {}:exclamation:", nombreEnt));
