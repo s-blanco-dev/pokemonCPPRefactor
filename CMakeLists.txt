@@ -9,6 +9,8 @@ add_executable(pokemonCppRefactor src/Library/main.cpp
         src/Library/Logica/Pokemon.h
         src/Library/Pokemons/Pikachu.cpp
         src/Library/Enums/ETipos.h
+        src/Library/Enums/EnumTools.h
+        src/Library/Enums/EnumTools.cpp
         src/Library/Logica/Movimiento.cpp
         src/Library/Logica/Movimiento.h
         src/Library/Enums/EEstado.h

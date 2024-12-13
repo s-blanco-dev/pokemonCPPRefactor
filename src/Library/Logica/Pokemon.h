@@ -22,6 +22,7 @@ class Pokemon {
     int valorDefensa;
     int valorAtaqueEspecial;
     int valorDefensaEspecial;
+    int turnosDormido;
     vector<Movimiento> movimientos;
     ETipos tipo;
     EEstado estado;
@@ -39,6 +40,8 @@ class Pokemon {
     int getValorDefensa() const;
     int getValorAtaqueEspecial() const;
     int getValorDefensaEspecial() const;
+    int getTurnosDormido();
+    void setTurnosDormido(int turnos);
     ETipos getTipo() const;
     EEstado getEstado() const;
     void setEstado(EEstado estado);
