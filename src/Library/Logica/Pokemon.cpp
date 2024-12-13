@@ -44,6 +44,14 @@ void Pokemon::setEstado(EEstado estado) {
     this->estado = estado;
 }
 
+int Pokemon::getTurnosDormido() {
+    return this->turnosDormido;
+}
+
+void Pokemon::setTurnosDormido(int turnos) {
+    this->turnosDormido = turnos;
+}
+
 
 vector<Movimiento>& Pokemon::getMovimientos() {
     return this->movimientos;
@@ -65,13 +73,11 @@ int Pokemon::getValorDefensaEspecial() const {
     return this->valorDefensaEspecial;
 }
 
-
-
-
 // CONSTRUCTOR
 // -------------------------
 Pokemon::Pokemon() {
     this->debil = false;
+    this->turnosDormido = 0;
 }
 
 // METODOS PUBLICOS
