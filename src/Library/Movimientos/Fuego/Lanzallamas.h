@@ -7,8 +7,8 @@
 #include "../../Logica/Movimiento.h"
 
 class Lanzallamas : public Movimiento {
-    public:
-    Lanzallamas();
+public:
+  Lanzallamas();
 };
 
-#endif //LANZALLAMAS_H
+#endif // LANZALLAMAS_H

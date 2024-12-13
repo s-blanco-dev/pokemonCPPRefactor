@@ -38,14 +38,23 @@ LogicaAtaque::aplicarAtaque(std::shared_ptr<Entrenador> &atacante,
                     atacante->getNombre(), ataque.getNombre());
 
   if (esCritico()) {
-    mensaje += "ATAQUE CRÍTICO";
+    mensaje += "**ATAQUE CRÍTICO**:100:\n";
     danioBase *= 2;
   }
+
+  mensaje += format("**{}** ha recibido {} puntos de daño:exclamation:\n",
+                    pokemonDefensa->getNombre(), danioBase);
 
   // APLICAR EFECTOS
   mensaje += aplicarEfectosEstado(pokemonDefensa, ataque);
   pokemonDefensa->recibirDanio(danioBase);
   actualizarContadores(atacante, ataque);
+
+  // VERIFICAR DEBILIDAD
+  if (pokemonDefensa->isDebil()) {
+    mensaje += format("**{}** se ha debilitado:rotating_light:\n",
+                      pokemonDefensa->getNombre());
+  }
 
   return mensaje;
 }

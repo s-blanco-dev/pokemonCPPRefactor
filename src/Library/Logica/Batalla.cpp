@@ -62,6 +62,11 @@ std::string Batalla::atacar(std::shared_ptr<Entrenador> &atacante,
           format("No es tu turno, {}!", atacante->getNombre()));
     } // verifica que sea el turno del entrenador
 
+    if (pokemonAtacante == nullptr) {
+      throw std::invalid_argument(format("No tienes ningún pokemon activo, {}!",
+                                         atacante->getNombre()));
+    }
+
     if (pokemonAtacante->isDebil()) {
       throw std::invalid_argument(
           format(":prohibited: {} está debilitado :prohibited:",
@@ -100,9 +105,8 @@ std::string Batalla::atacar(std::shared_ptr<Entrenador> &atacante,
                         pokemonAtacante->getNombre());
       break;
     case EEstado::PARALIZADO:
-      mensaje +=
-          format("{} está **paralizado** y no puede atacar :prohibited:\n",
-                 pokemonAtacante->getNombre());
+      return format("{} está **paralizado** y no puede atacar :prohibited:\n",
+                    pokemonAtacante->getNombre());
       break;
     default:;
     }
@@ -167,7 +171,7 @@ Batalla::obtenerEntrenadorPorNombre(std::string nombre) {
   return entrenador_2;
 }
 
-bool Batalla::esTurnoDe(Entrenador &entrenador) {
+bool Batalla::esTurnoDe(const Entrenador &entrenador) {
   return (entrenador.getNombre() == entrenadorActual->getNombre());
 }
 
