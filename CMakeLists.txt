@@ -7,7 +7,6 @@ add_subdirectory(libs/DPP)
 add_executable(pokemonCppRefactor src/Library/main.cpp
         src/Library/Logica/Pokemon.cpp
         src/Library/Logica/Pokemon.h
-        src/Library/Pokemons/Pikachu.cpp
         src/Library/Enums/ETipos.h
         src/Library/Enums/EnumTools.h
         src/Library/Enums/EnumTools.cpp
@@ -23,10 +22,19 @@ add_executable(pokemonCppRefactor src/Library/main.cpp
         src/Library/Movimientos/Electrico/PlacajeElectrico.cpp
         src/Library/Movimientos/Electrico/PlacajeElectrico.h
         src/Library/Movimientos/Electrico/Rayo.cpp
+        src/Library/Movimientos/Hielo/RayoGelido.cpp
+        src/Library/Movimientos/Hielo/RayoGelido.h
         src/Library/Movimientos/Electrico/Rayo.h
+        src/Library/Movimientos/Normal/Placaje.h
+        src/Library/Movimientos/Normal/Placaje.cpp
+        src/Library/Pokemons/Pikachu.cpp
         src/Library/Pokemons/Pikachu.h
         src/Library/Pokemons/Charizard.cpp
         src/Library/Pokemons/Charizard.h
+        src/Library/Pokemons/Aurorus.cpp
+        src/Library/Pokemons/Aurorus.h
+        src/Library/Pokemons/Gyarados.cpp
+        src/Library/Pokemons/Gyarados.h
         src/Library/Logica/Entrenador.cpp
         src/Library/Logica/Entrenador.h
         src/Library/Interfaces/IItem.h
