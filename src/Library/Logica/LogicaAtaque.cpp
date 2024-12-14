@@ -32,10 +32,8 @@ LogicaAtaque::aplicarAtaque(std::shared_ptr<Entrenador> &atacante,
 
   int danioBase = calcularDanioBase(pokemonAtaque, pokemonDefensa, ataque);
 
-  std::string mensaje;
-
-  mensaje += format("*{}* ha usado **{}**:exclamation:\n",
-                    atacante->getNombre(), ataque.getNombre());
+  std::string mensaje = format("*{}* ha usado **{}**:exclamation:\n",
+                               atacante->getNombre(), ataque.getNombre());
 
   if (esCritico()) {
     mensaje += "**ATAQUE CRÍTICO**:100:\n";

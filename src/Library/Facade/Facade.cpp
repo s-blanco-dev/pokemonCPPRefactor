@@ -13,6 +13,8 @@
 // Los punteros inteligentes me siguien hasta en el supermercado
 // no veo la luz desde hace 2 semanas
 
+// CONSTRUCTOR, DESTRUCTOR, SINGLETON
+// -------------------------
 Facade *Facade::instance = nullptr;
 
 Facade::Facade() {
@@ -40,6 +42,8 @@ Facade::~Facade() {
   delete this->menuActual; // Liberar memoria asignada dinámicamente
 }
 
+// METODOS PUBLICOS
+// -------------------------
 std::string Facade::unirBatalla(std::string nombreEnt) {
   listaEspera.push_back(Entrenador(nombreEnt));
 

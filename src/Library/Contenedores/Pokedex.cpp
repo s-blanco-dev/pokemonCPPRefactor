@@ -13,6 +13,7 @@
 Pokedex *Pokedex::instance = nullptr;
 
 // CONSTRUCTOR PRIVADO
+// -------------------------
 Pokedex::Pokedex() {
   this->pokemons.push_back(Pikachu());
   this->pokemons.push_back(Charizard());
@@ -22,6 +23,7 @@ Pokedex::Pokedex() {
 }
 
 // APLICO SINGLETON
+// -------------------------
 Pokedex *Pokedex::getInstance() {
   if (instance == nullptr) {
     instance = new Pokedex();
@@ -40,6 +42,8 @@ void Pokedex::resetInstance() {
 // Eliminé el destructor porque los pokemones ya no se crean dinámicamente
 // ---
 
+// METODOS PUBLICOS
+// -------------------------
 void Pokedex::addPokemon(Pokemon &pokemon) {
   this->pokemons.push_back(pokemon);
 }

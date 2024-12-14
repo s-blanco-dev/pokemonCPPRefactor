@@ -10,6 +10,7 @@
 #include "Entrenador.h"
 #include "LogicaAtaque.h"
 #include "Movimiento.h"
+#include <memory>
 #include <string>
 
 class Batalla {
@@ -27,6 +28,14 @@ private:
   // METODOS PRIVADOS
   bool finBatalla();
   void siguienteTurno();
+  void verificarTurno(const std::shared_ptr<Entrenador> &atacante);
+  void verificarCondicionesPokemonActivo(
+      const std::shared_ptr<Entrenador> &entrenador);
+  std::shared_ptr<Entrenador>
+  obtenerDefensor(const std::shared_ptr<Entrenador> &atacante) const;
+  void verificarCondicionesAtaque(const std::shared_ptr<Entrenador> &entrenador,
+                                  Movimiento &ataque) const;
+  void verificarEstadosPokemon(std::shared_ptr<Pokemon> &pokemon);
 
 public:
   Entrenador getEntrenadorActual() const;

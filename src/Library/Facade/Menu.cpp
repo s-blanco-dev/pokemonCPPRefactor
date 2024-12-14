@@ -26,7 +26,7 @@ std::string Menu::menuPokemonAtaque(Entrenador &entrenador) {
   std::string mensaje;
 
   // Obtener el Pokémon activo
-  std::shared_ptr<Pokemon> pokemonActivo = entrenador.getPokemonActivo();
+  auto pokemonActivo = entrenador.getPokemonActivo();
 
   // Información de salud del Pokémon activo
   int pokemonHP = pokemonActivo->getHP();

@@ -6,19 +6,12 @@
 
 // Getters
 std::string Movimiento::getNombre() const { return nombre; }
-
 ETipos Movimiento::getTipo() const { return tipo; }
-
 double Movimiento::getDanio() const { return danio; }
-
 int Movimiento::getPP() const { return PP; }
-
 int Movimiento::getCurrentPP() const { return currentPP; }
-
 bool Movimiento::esEspecial() const { return especial; }
-
 double Movimiento::getPrecision() const { return precision; }
-
 EEstado Movimiento::getEfecto() const { return efecto; }
 
 // CONSTRUCTOR
