@@ -29,6 +29,17 @@ Facade *Facade::getInstance() {
   return instance;
 }
 
+void Facade::resetInstance() {
+  Pokedex::resetInstance();
+  delete instance;    // Liberar la instancia existente
+  instance = nullptr; // Evitar apuntar a memoria inválida
+}
+
+Facade::~Facade() {
+  delete this->batallaActual;
+  delete this->menuActual; // Liberar memoria asignada dinámicamente
+}
+
 std::string Facade::unirBatalla(std::string nombreEnt) {
   listaEspera.push_back(Entrenador(nombreEnt));
 

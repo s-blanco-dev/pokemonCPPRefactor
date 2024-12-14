@@ -29,6 +29,9 @@ int main() {
   std::cout << Facade::getInstance()->atacar("Chorro", "Bola Voltio") << endl;
   std::cout << Facade::getInstance()->desplegarMenuAtaque("Hugo") << std::endl;
   std::cout << Facade::getInstance()->atacar("Hugo", "Placaje") << endl;
+  Facade::resetInstance();
+  Facade::getInstance()->unirBatalla("Hugo");
+  Facade::getInstance()->unirBatalla("Chorro");
 }
 
 //   dpp::cluster bot(BOT_TOKEN, dpp::i_default_intents |
