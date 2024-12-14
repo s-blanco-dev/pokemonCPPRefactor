@@ -13,6 +13,7 @@
 #include <cstdlib>
 #include <exception>
 #include <format>
+#include <memory>
 #include <stdexcept>
 #include <string>
 
@@ -55,63 +56,17 @@ std::string Batalla::atacar(std::shared_ptr<Entrenador> &atacante,
                             Movimiento &ataque) {
   try {
     std::string mensaje;
-    std::shared_ptr<Entrenador> defensor = entrenador_1;
-    std::shared_ptr<Pokemon> pokemonAtacante = atacante->getPokemonActivo();
+    verificarTurno(atacante); // verifica que sea el turno del entrenador
 
-    if (!esTurnoDe(*atacante)) {
-      throw std::invalid_argument(
-          format("No es tu turno, {}!", atacante->getNombre()));
-    } // verifica que sea el turno del entrenador
+    auto defensor = obtenerDefensor(atacante); // obtiene el entrenador defensor
+    auto pokemonAtacante = atacante->getPokemonActivo();
+    auto pokemonDefensor = defensor->getPokemonActivo();
 
-    if (pokemonAtacante == nullptr) {
-      throw std::invalid_argument(format("No tienes ningún pokemon activo, {}!",
-                                         atacante->getNombre()));
-    }
+    verificarCondicionesPokemonActivo(atacante);
+    verificarCondicionesPokemonActivo(defensor);
 
-    if (pokemonAtacante->isDebil()) {
-      throw std::invalid_argument(
-          format(":prohibited: {} está debilitado :prohibited:",
-                 atacante->getPokemonActivo()->getNombre()));
-    } // No ataca si el pokemon está debil
-
-    if (atacante->getNombre() == entrenador_1->getNombre()) {
-      defensor = entrenador_2;
-    } // por lógica, si el entrenador1 es el atacante, entonces el entrenador2
-      // es el defensor
-
-    std::shared_ptr<Pokemon> pokemonDefensor = defensor->getPokemonActivo();
-
-    if (pokemonDefensor->isDebil()) {
-      throw std::invalid_argument(
-          format(":prohibited: **{}** está debilitado :prohibited:",
-                 defensor->getPokemonActivo()->getNombre()));
-    } // Tampoco ataca si el pokemon del defensor está debil
-
-    if (ataque.esEspecial() && atacante->getContadorEspecial() != 0) {
-      throw invalid_argument(
-          format(":prohibited: Debes esperar **{}** turnos más para usar un "
-                 "ataque especial :prohibited:",
-                 atacante->getContadorEspecial()));
-    } // verifica que pueda usar ataque especial
-
-    if (ataque.getCurrentPP() == 0) {
-      throw invalid_argument(
-          format("**{}** está agotado:exclamation:", ataque.getNombre()));
-    } // verifica que tenga ataques disponibles
-
-    // VERIFICAR ESTADOS
-    //
-
-    EEstado estadoPokemonAtacante =
-        _logica.verificarEstadoPokemon(pokemonAtacante);
-
-    if (estadoPokemonAtacante == EEstado::DORMIDO ||
-        estadoPokemonAtacante == EEstado::PARALIZADO) {
-      siguienteTurno();
-      return format("{} está **{}** y no puede atacar :prohibited:\n",
-                    pokemonAtacante->getNombre(),
-                    EnumTools::estadoToString(estadoPokemonAtacante));
-    }
+    verificarCondicionesAtaque(atacante, ataque);
+    verificarEstadosPokemon(pokemonAtacante);
 
     // Aplica el ataque
     mensaje += _logica.aplicarAtaque(atacante, defensor, ataque);
@@ -124,8 +79,8 @@ std::string Batalla::atacar(std::shared_ptr<Entrenador> &atacante,
     ataque.setCurrentPP(
         ataque.getPP() -
         1); // Reduce en 1 el contador de usos disponibles para el ataque
-
     siguienteTurno();
+
     return mensaje;
   } catch (const std::exception &e) {
     return e.what();
@@ -144,10 +99,7 @@ std::string Batalla::seleccionarPokemon(const std::shared_ptr<Entrenador> &ente,
   try {
     auto copiaPokemon = std::make_shared<Pokemon>(pok);
 
-    if (!esTurnoDe(*ente)) {
-      throw std::invalid_argument(
-          format("No es tu turno, {}!", ente->getNombre()));
-    }
+    verificarTurno(ente);
 
     if (pokedex->getPokemonByName(pok.getNombre()) == nullptr) {
       throw std::invalid_argument("El Pokemon no está disponible!");
@@ -195,4 +147,61 @@ void Batalla::siguienteTurno() {
       (entrenadorActual->getNombre() == entrenador_1->getNombre())
           ? entrenador_2
           : entrenador_1;
+}
+
+// Auxiliares de atacar()
+//---
+
+void Batalla::verificarTurno(const std::shared_ptr<Entrenador> &atacante) {
+  if (!esTurnoDe(*atacante)) {
+    throw std::invalid_argument(
+        format("No es tu turno, {}!", atacante->getNombre()));
+  } // verifica que sea el turno del entrenador
+}
+
+void Batalla::verificarCondicionesPokemonActivo(
+    const std::shared_ptr<Entrenador> &entrenador) {
+  if (entrenador->getPokemonActivo() == nullptr) {
+    throw std::invalid_argument(format("No tienes ningún pokemon activo, {}!",
+                                       entrenador->getNombre()));
+  }
+
+  if (entrenador->getPokemonActivo()->isDebil()) {
+    throw std::invalid_argument(
+        format(":prohibited: {} está debilitado :prohibited:",
+               entrenador->getPokemonActivo()->getNombre()));
+  } // No ataca si el pokemon está debil
+};
+
+std::shared_ptr<Entrenador>
+Batalla::obtenerDefensor(const std::shared_ptr<Entrenador> &atacante) const {
+  return (atacante->getNombre() == entrenador_1->getNombre()) ? entrenador_2
+                                                              : entrenador_1;
+}
+
+void Batalla::verificarCondicionesAtaque(
+    const std::shared_ptr<Entrenador> &atacante, Movimiento &ataque) const {
+  if (ataque.esEspecial() && atacante->getContadorEspecial() != 0) {
+    throw invalid_argument(
+        format(":prohibited: Debes esperar **{}** turnos más para usar un "
+               "ataque especial :prohibited:",
+               atacante->getContadorEspecial()));
+  } // verifica que pueda usar ataque especial
+
+  if (ataque.getCurrentPP() == 0) {
+    throw invalid_argument(
+        format("**{}** está agotado:exclamation:", ataque.getNombre()));
+  } // verifica que tenga ataques disponibles
+}
+
+void Batalla::verificarEstadosPokemon(std::shared_ptr<Pokemon> &pokemon) {
+  EEstado estadoPokemonAtacante = _logica.verificarEstadoPokemon(pokemon);
+
+  if (estadoPokemonAtacante == EEstado::DORMIDO ||
+      estadoPokemonAtacante == EEstado::PARALIZADO) {
+    siguienteTurno();
+    throw std::invalid_argument(format(
+        "{} está **{}** y no puede atacar :prohibited:\n", pokemon->getNombre(),
+        EnumTools::estadoToString(estadoPokemonAtacante)));
+  }
 }
