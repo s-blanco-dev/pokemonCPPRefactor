@@ -105,6 +105,9 @@ std::string LogicaAtaque::aplicarEfectosEstado(std::shared_ptr<Pokemon> pok,
 
   if (pok->getEstado() == EEstado::NORMAL && ataque.esEspecial()) {
     pok->setEstado(ataque.getEfecto());
+    if (ataque.getEfecto() == EEstado::DORMIDO) {
+      pok->setTurnosDormido(2);
+    }
     return format(
         "{} ha sido **{}**:exclamation:\n", pok->getNombre(),
         EnumTools::estadoToString(

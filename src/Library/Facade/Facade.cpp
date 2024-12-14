@@ -78,6 +78,11 @@ std::string Facade::mostrarPokedex() {
 std::string Facade::seleccionarPokemon(std::string nombrePok,
                                        std::string nombreEnt) {
   try {
+    if (!existeBatalla()) {
+      throw invalid_argument(
+          ":prohibited:**No hay batalla en curso**:prohibited:");
+    }
+
     auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
     Pokemon *pokemon = pokedexActual->getPokemonByName(nombrePok);
 
@@ -94,6 +99,12 @@ std::string Facade::seleccionarPokemon(std::string nombrePok,
 
 std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
   try {
+
+    if (!existeBatalla()) {
+      throw invalid_argument(
+          ":prohibited:**No hay batalla en curso**:prohibited:");
+    }
+
     auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
 
     if (ente->getPokemonActivo() == nullptr) {
@@ -125,6 +136,12 @@ std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
 // Nota: NO USAR REFERENCIAS Y PUNTEROS CRUDOS. EN LO POSIBLE USAR SHARED_PTR
 std::string Facade::atacar(std::string nombreEnt, std::string nombreMov) {
   try {
+
+    if (!existeBatalla()) {
+      throw invalid_argument(
+          ":prohibited:**No hay batalla en curso**:prohibited:");
+    }
+
     auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
 
     if (ente->getPokemonActivo() == nullptr) {
@@ -146,6 +163,14 @@ std::string Facade::atacar(std::string nombreEnt, std::string nombreMov) {
 
 // METODOS PRIVADOS
 // -------------------------
+
+bool Facade::existeBatalla() {
+  if (batallaActual == nullptr) {
+    return false;
+  }
+  return true;
+}
+
 Entrenador *Facade::buscarEntrenadorPorNombre(std::string nombre) {
   for (Entrenador &ent : this->listaEspera) {
     if (nombre == ent.getNombre()) {

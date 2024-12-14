@@ -23,8 +23,8 @@ private:
 
   Facade();
 
+  bool existeBatalla();
   Entrenador *buscarEntrenadorPorNombre(std::string nombre);
-
   static Movimiento *buscarMovimientoPorNombre(std::string nombre,
                                                Entrenador ente);
 
