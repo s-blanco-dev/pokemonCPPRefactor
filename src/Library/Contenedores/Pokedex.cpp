@@ -29,13 +29,16 @@ Pokedex *Pokedex::getInstance() {
   return instance;
 }
 
-// DESTRUCTOR
-Pokedex::~Pokedex() {
-  // Libera la memoria de los Pokémon creados dinámicamente
-  for (Pokemon pokemon : pokemons) {
-    delete &pokemon;
+void Pokedex::resetInstance() {
+  if (instance != nullptr) {
+    delete instance;    // Llama automáticamente al destructor
+    instance = nullptr; // Evita dobles liberaciones
   }
 }
+
+// ---
+// Eliminé el destructor porque los pokemones ya no se crean dinámicamente
+// ---
 
 void Pokedex::addPokemon(Pokemon &pokemon) {
   this->pokemons.push_back(pokemon);

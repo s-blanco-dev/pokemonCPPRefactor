@@ -37,7 +37,7 @@ std::string Menu::menuPokemonAtaque(Entrenador &entrenador) {
       EnumTools::estadoToString(pokemonActivo->getEstado());
 
   // Construir encabezado del menú
-  mensaje += format(":smirk_cat: **{}**: :heart: [{}/{}] HP | :pill: **{}**\n",
+  mensaje += format(":smirk_cat: **{}**: :heart: [{}/{}] HP | **{}**\n",
                     pokemonActivo->getNombre(), pokemonHP, pokemonHPMax,
                     estadoPokemon);
 

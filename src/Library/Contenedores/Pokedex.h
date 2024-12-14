@@ -10,19 +10,19 @@
 
 class Pokedex {
 protected:
-    std::vector<Pokemon> pokemons;
-    static Pokedex* instance;
+  std::vector<Pokemon> pokemons;
+  static Pokedex *instance;
 
-    Pokedex();
+  Pokedex();
 
 public:
-    static Pokedex* getInstance();
-    ~Pokedex(); // Destructor para liberar memoria
+  static Pokedex *getInstance();
+  static void resetInstance();
 
-    void addPokemon(Pokemon& pokemon);
-    void removePokemon(const Pokemon &pokemon);
-    std::vector<Pokemon> getPokemons() const;
+  void addPokemon(Pokemon &pokemon);
+  void removePokemon(const Pokemon &pokemon);
+  std::vector<Pokemon> getPokemons() const;
 
-    Pokemon* getPokemonByName(const std::string& nombre);
+  Pokemon *getPokemonByName(const std::string &nombre);
 };
-#endif //POKEDEX_H
+#endif // POKEDEX_H

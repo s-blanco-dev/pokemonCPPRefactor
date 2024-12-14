@@ -4,6 +4,7 @@
 
 #include "Batalla.h"
 #include "../Contenedores/Pokedex.h"
+#include "../Enums/EnumTools.h"
 #include "../Generador/GeneradorContexto.h"
 #include "../Generador/IGenerador.h"
 #include "LogicaAtaque.h"
@@ -99,22 +100,26 @@ std::string Batalla::atacar(std::shared_ptr<Entrenador> &atacante,
     } // verifica que tenga ataques disponibles
 
     // VERIFICAR ESTADOS
-    switch (_logica.verificarEstadoPokemon(pokemonAtacante)) {
-    case EEstado::DORMIDO:
-      mensaje += format("{} está **dormido** y no puede atacar :prohibited:\n",
-                        pokemonAtacante->getNombre());
-      break;
-    case EEstado::PARALIZADO:
-      return format("{} está **paralizado** y no puede atacar :prohibited:\n",
-                    pokemonAtacante->getNombre());
-      break;
-    default:;
+    //
+
+    EEstado estadoPokemonAtacante =
+        _logica.verificarEstadoPokemon(pokemonAtacante);
+
+    if (estadoPokemonAtacante == EEstado::DORMIDO ||
+        estadoPokemonAtacante == EEstado::PARALIZADO) {
+      siguienteTurno();
+      return format("{} está **{}** y no puede atacar :prohibited:\n",
+                    pokemonAtacante->getNombre(),
+                    EnumTools::estadoToString(estadoPokemonAtacante));
     }
 
-    // aplica el ataque recibiendo referencias a ambos pokemones
+    // Aplica el ataque
     mensaje += _logica.aplicarAtaque(atacante, defensor, ataque);
 
-    // CREAR METODO PARA ACTUALIZAR CONTADORES
+    if (finBatalla()) {
+      mensaje +=
+          format("**{} ha ganado la batalla**:tada:\n", atacante->getNombre());
+    }
 
     ataque.setCurrentPP(
         ataque.getPP() -
@@ -153,8 +158,9 @@ std::string Batalla::seleccionarPokemon(const std::shared_ptr<Entrenador> &ente,
     ente->setPokemonActivo(copiaPokemon); // Usar la copia como activo
     siguienteTurno();
 
-    return format("{} ha seleccionado a {} para su equipo!\n",
-                  ente->getNombre(), copiaPokemon->getNombre());
+    return format(
+        "**{}** ha seleccionado a **{}** para su equipo :inbox_tray:\n",
+        ente->getNombre(), copiaPokemon->getNombre());
 
     // FINALMENTE FUNCIONA -> (3 días programando en C++ derivaron en 7 años de
     // estancia en el Vilardebó)
@@ -179,17 +185,8 @@ bool Batalla::esTurnoDe(const Entrenador &entrenador) {
 // -------------------------
 
 bool Batalla::finBatalla() {
-  for (auto p : entrenador_1->getPokemons()) {
-    if (!p->isDebil()) {
-      return false;
-    }
-  }
-  for (auto p : entrenador_2->getPokemons()) {
-    if (!p->isDebil()) {
-      return false;
-    }
-  }
-  return true;
+  return (entrenador_1->todosPokemonDebiles() ||
+          entrenador_2->todosPokemonDebiles());
 }
 
 void Batalla::siguienteTurno() {
