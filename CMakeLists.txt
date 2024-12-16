@@ -77,3 +77,5 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
         CXX_STANDARD 20 # or 20 if you want something more recent
         CXX_STANDARD_REQUIRED ON
 )
+
+add_subdirectory(Google_tests)

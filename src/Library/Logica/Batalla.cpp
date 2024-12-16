@@ -101,10 +101,6 @@ std::string Batalla::seleccionarPokemon(const std::shared_ptr<Entrenador> &ente,
 
     verificarTurno(ente);
 
-    if (pokedex->getPokemonByName(pok.getNombre()) == nullptr) {
-      throw std::invalid_argument("El Pokemon no está disponible!");
-    }
-
     ente->agregarPokemon(copiaPokemon);   // Usar la copia
     pokedex->removePokemon(pok);          // Eliminar el original de la Pokédex
     ente->setPokemonActivo(copiaPokemon); // Usar la copia como activo

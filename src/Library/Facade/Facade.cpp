@@ -91,7 +91,7 @@ std::string Facade::seleccionarPokemon(std::string nombrePok,
     Pokemon *pokemon = pokedexActual->getPokemonByName(nombrePok);
 
     if (pokemon == nullptr) {
-      return "El pokemon no está disponible";
+      throw invalid_argument("El pokemon no está disponible");
     }
 
     // Pasar punteros directamente a Batalla
