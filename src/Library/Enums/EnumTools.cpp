@@ -49,7 +49,7 @@ std::string EnumTools::tipoToString(ETipos tipo) {
 std::string EnumTools::estadoToString(EEstado estado) {
   switch (estado) {
   case EEstado::NORMAL:
-    return ":check_mark:Normal";
+    return ":white_check_mark:Normal";
   case EEstado::DORMIDO:
     return ":zzz:Dormido";
   case EEstado::QUEMADO:

@@ -2,6 +2,7 @@
 #include "../Logica/Pokemon.h"
 #include "../Movimientos/Agua/Hidropulso.h"
 #include "../Movimientos/Electrico/Rayo.h"
+#include "../Movimientos/Normal/Placaje.h"
 
 Gyarados::Gyarados() : Pokemon() {
   this->nombre = "Gyarados";
@@ -12,5 +13,5 @@ Gyarados::Gyarados() : Pokemon() {
   this->valorDefensa = 60;
   this->valorAtaqueEspecial = 64;
   this->valorDefensaEspecial = 64;
-  this->movimientos = {Rayo(), Hidropulso()};
+  this->movimientos = {Rayo(), Hidropulso(), Placaje()};
 };

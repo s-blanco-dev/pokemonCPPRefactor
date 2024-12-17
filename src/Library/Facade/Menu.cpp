@@ -1,6 +1,8 @@
 #include "Menu.h"
 #include "../Enums/EnumTools.h"
 #include <format>
+#include <string>
+#include <vector>
 
 // CONSTRUCTOR
 // -------------------------
@@ -63,6 +65,28 @@ std::string Menu::menuPokemonAtaque(Entrenador &entrenador) {
     }
   }
 
+  return mensaje;
+}
+
+std::string Menu::listarPokemonsEntrenador(const Entrenador &ente) {
+
+  std::string mensaje;
+  auto pokemons = ente.getPokemons();
+
+  for (int i = 0; i < pokemons.size(); i++) {
+    std::string hpStatus =
+        format("[{}/{}]", pokemons[i]->getHP(), pokemons[i]->getHPMax());
+    std::string estadoPokemon =
+        EnumTools::estadoToString(pokemons[i]->getEstado());
+
+    if (pokemons[i]->isDebil()) {
+      mensaje += format("{}. {}: **Debilitado :anger:**\n", i + 1,
+                        pokemons[i]->getNombre());
+    } else {
+      mensaje += format("{}. **{}**: {} | {}\n", i + 1,
+                        pokemons[i]->getNombre(), hpStatus, estadoPokemon);
+    }
+  }
   return mensaje;
 }
 

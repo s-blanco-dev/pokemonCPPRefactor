@@ -8,6 +8,7 @@
 #include "../Generador/GeneradorContexto.h"
 #include "../Logica/Batalla.h"
 #include "../Logica/Entrenador.h"
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -23,10 +24,12 @@ private:
 
   Facade();
 
-  bool existeBatalla();
+  void existeBatalla();
   Entrenador *buscarEntrenadorPorNombre(std::string nombre);
   static Movimiento *buscarMovimientoPorNombre(std::string nombre,
                                                Entrenador ente);
+  void existeEntrenador(const std::shared_ptr<Entrenador> &ente);
+  void tienePokemonActivo(const std::shared_ptr<Entrenador> &ente);
 
 public:
   static Facade *getInstance(); // instancia única de Singleton
@@ -41,6 +44,9 @@ public:
   std::string atacar(std::string nombreEnt, std::string nombreMov);
   std::string mostrarPokedex();
   std::string desplegarMenuAtaque(std::string nombreEnt);
+  std::string cambiarPokemon(std::string nombrePokemon,
+                             std::string nombreEntrenador);
+  std::string misPokemon(std::string nombreEntrenador);
 };
 
 #endif // FACADE_H

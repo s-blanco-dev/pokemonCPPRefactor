@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "../Interfaces/IItem.h"
+#include "Movimiento.h"
 #include "Pokemon.h"
 //
 // Created by jwillmore on 12/5/24.
@@ -38,6 +39,8 @@ public:
   void agregarPokemon(std::shared_ptr<Pokemon> pokemon);
   void removerPokemon(Pokemon &pokemon);
   std::vector<Movimiento> &obtenerMovimientosPokemonActivo();
+  std::shared_ptr<Pokemon> buscarPokemonPorNombre(std::string);
+  bool movimientoEstaPresente(Movimiento &mov);
 };
 
 #endif // ENTRENADOR_H

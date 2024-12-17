@@ -83,6 +83,15 @@ int main() {
     }
   });
 
+  bot.on_slashcommand([](const dpp::slashcommand_t &event) {
+    if (event.command.get_command_name() == "mis_pokemon") {
+      std::string nombreUsuario = event.command.usr.username;
+
+      std::string respuesta = Facade::getInstance()->misPokemon(nombreUsuario);
+      event.reply(respuesta);
+    }
+  });
+
   // COMANDO SELECCIONAR Pokemon
   bot.on_slashcommand([&bot](const dpp::slashcommand_t &event) {
     if (event.command.get_command_name() == "llamar") {
@@ -108,6 +117,23 @@ int main() {
         std::string nombreMov =
             std::get<std::string>(event.get_parameter("ataque"));
         event.reply(Facade::getInstance()->atacar(nombreUsuario, nombreMov));
+      } catch (const std::bad_variant_access &e) {
+        event.reply(
+            "Error: El parámetro proporcionado no es un string válido.");
+      }
+    }
+  });
+  ;
+
+  // CAMBIAR POKEMON
+  bot.on_slashcommand([&bot](const dpp::slashcommand_t &event) {
+    if (event.command.get_command_name() == "cambio") {
+      try {
+        std::string nombreUsuario = event.command.usr.username;
+        std::string nombrePok =
+            std::get<std::string>(event.get_parameter("pokemon"));
+        event.reply(
+            Facade::getInstance()->cambiarPokemon(nombrePok, nombreUsuario));
       } catch (const std::bad_variant_access &e) {
         event.reply(
             "Error: El parámetro proporcionado no es un string válido.");
@@ -147,9 +173,19 @@ int main() {
       dpp::slashcommand menu_ataque("menu_ataque",
                                     "Desplegar el menú de ataque!", bot.me.id);
 
+      dpp::slashcommand mis_pokemon(
+          "mis_pokemon", "Desplega la lista de pokemon del entrenador!",
+          bot.me.id);
+
       dpp::slashcommand atacar("atacar", "Ejecuta un ataque", bot.me.id);
       atacar.add_option(
           dpp::command_option(dpp::co_string, "ataque", "Nombre del ataque",
+                              true) // Parámetro obligatorio
+      );
+
+      dpp::slashcommand cambio("cambio", "Cambia tu pokemon activo", bot.me.id);
+      cambio.add_option(
+          dpp::command_option(dpp::co_string, "pokemon", "Nombre del pokemon",
                               true) // Parámetro obligatorio
       );
 
@@ -159,7 +195,8 @@ int main() {
 
       // Crear un vector de comandos
       std::vector<dpp::slashcommand> comandos = {
-          unirme, llamar, batalla, pokedex, menu_ataque, atacar, finalizar};
+          unirme,      llamar, batalla, pokedex,  menu_ataque,
+          mis_pokemon, atacar, cambio,  finalizar};
 
       // Registrar todos los comandos
       for (auto &comando : comandos) {

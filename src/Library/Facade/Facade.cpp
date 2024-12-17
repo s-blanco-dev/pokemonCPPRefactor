@@ -3,7 +3,9 @@
 //
 
 #include "Facade.h"
+#include <exception>
 #include <format>
+#include <memory>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -82,10 +84,7 @@ std::string Facade::mostrarPokedex() {
 std::string Facade::seleccionarPokemon(std::string nombrePok,
                                        std::string nombreEnt) {
   try {
-    if (!existeBatalla()) {
-      throw invalid_argument(
-          ":prohibited:**No hay batalla en curso**:prohibited:");
-    }
+    existeBatalla();
 
     auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
     Pokemon *pokemon = pokedexActual->getPokemonByName(nombrePok);
@@ -104,18 +103,11 @@ std::string Facade::seleccionarPokemon(std::string nombrePok,
 std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
   try {
 
-    if (!existeBatalla()) {
-      throw invalid_argument(
-          ":prohibited:**No hay batalla en curso**:prohibited:");
-    }
+    existeBatalla();
 
     auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
 
-    if (ente->getPokemonActivo() == nullptr) {
-      throw std::invalid_argument(
-          format("No tienes ningún pokemon activo, {}:exclamation:",
-                 ente->getNombre()));
-    }
+    tienePokemonActivo(ente);
 
     if (ente->getPokemonActivo()->isDebil()) {
       throw std::invalid_argument(
@@ -123,10 +115,7 @@ std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
                  ente->getPokemonActivo()->getNombre()));
     }
 
-    if (!batallaActual->esTurnoDe(*ente)) {
-      throw std::invalid_argument(
-          format("No es tu turno, {}:exclamation:", nombreEnt));
-    }
+    batallaActual->esTurnoDe(ente);
 
     return menuActual->menuPokemonAtaque(*ente);
   } catch (std::exception &e) {
@@ -141,18 +130,11 @@ std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
 std::string Facade::atacar(std::string nombreEnt, std::string nombreMov) {
   try {
 
-    if (!existeBatalla()) {
-      throw invalid_argument(
-          ":prohibited:**No hay batalla en curso**:prohibited:");
-    }
+    existeBatalla();
 
     auto ente = batallaActual->obtenerEntrenadorPorNombre(nombreEnt);
 
-    if (ente->getPokemonActivo() == nullptr) {
-      throw std::invalid_argument(
-          format("No tienes ningún pokemon activo, {}:exclamation:",
-                 ente->getNombre()));
-    }
+    tienePokemonActivo(ente);
 
     auto ataque = buscarMovimientoPorNombre(nombreMov, *ente);
     if (ataque == nullptr) {
@@ -165,14 +147,57 @@ std::string Facade::atacar(std::string nombreEnt, std::string nombreMov) {
   }
 }
 
+std::string Facade::cambiarPokemon(std::string nombrePokemon,
+                                   std::string nombreEntrenador) {
+  try {
+
+    existeBatalla();
+
+    auto entrenador =
+        batallaActual->obtenerEntrenadorPorNombre(nombreEntrenador);
+
+    tienePokemonActivo(entrenador);
+
+    auto pokemonNuevo = entrenador->buscarPokemonPorNombre(nombrePokemon);
+
+    if (pokemonNuevo == nullptr) {
+      throw std::invalid_argument(
+          "No tienes un pokemon con ese nombre:exclamation:\n");
+    }
+
+    return batallaActual->cambiarPokemonActivo(entrenador, pokemonNuevo);
+
+  } catch (std::exception &e) {
+    return e.what();
+  }
+}
+
+std::string Facade::misPokemon(std::string nombreEntrenador) {
+
+  try {
+    existeBatalla();
+
+    auto entrenador =
+        batallaActual->obtenerEntrenadorPorNombre(nombreEntrenador);
+
+    existeEntrenador(entrenador);
+    tienePokemonActivo(entrenador);
+
+    return menuActual->listarPokemonsEntrenador(*entrenador);
+
+  } catch (std::exception &e) {
+    return e.what();
+  }
+}
+
 // METODOS PRIVADOS
 // -------------------------
 
-bool Facade::existeBatalla() {
+void Facade::existeBatalla() {
   if (batallaActual == nullptr) {
-    return false;
+    throw std::invalid_argument(
+        ":prohibited:**No hay batalla en curso**:prohibited:");
   }
-  return true;
 }
 
 Entrenador *Facade::buscarEntrenadorPorNombre(std::string nombre) {
@@ -194,4 +219,17 @@ Movimiento *Facade::buscarMovimientoPorNombre(std::string nombre,
       return &mov;
   }
   return nullptr;
+}
+
+void Facade::existeEntrenador(const std::shared_ptr<Entrenador> &ente) {
+  if (ente == nullptr) {
+    throw std::invalid_argument("ERROR: No se encontró el entrenador!\n");
+  }
+}
+
+void Facade::tienePokemonActivo(const std::shared_ptr<Entrenador> &ente) {
+  if (ente->getPokemonActivo() == nullptr) {
+    throw std::invalid_argument(format(
+        "No tienes ningún pokemon activo, {}:exclamation:", ente->getNombre()));
+  }
 }
