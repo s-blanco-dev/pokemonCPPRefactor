@@ -83,6 +83,15 @@ int main() {
     }
   });
 
+  bot.on_slashcommand([](const dpp::slashcommand_t &event) {
+    if (event.command.get_command_name() == "mis_pokemon") {
+      std::string nombreUsuario = event.command.usr.username;
+
+      std::string respuesta = Facade::getInstance()->misPokemon(nombreUsuario);
+      event.reply(respuesta);
+    }
+  });
+
   // COMANDO SELECCIONAR Pokemon
   bot.on_slashcommand([&bot](const dpp::slashcommand_t &event) {
     if (event.command.get_command_name() == "llamar") {
@@ -164,6 +173,10 @@ int main() {
       dpp::slashcommand menu_ataque("menu_ataque",
                                     "Desplegar el menú de ataque!", bot.me.id);
 
+      dpp::slashcommand mis_pokemon(
+          "mis_pokemon", "Desplega la lista de pokemon del entrenador!",
+          bot.me.id);
+
       dpp::slashcommand atacar("atacar", "Ejecuta un ataque", bot.me.id);
       atacar.add_option(
           dpp::command_option(dpp::co_string, "ataque", "Nombre del ataque",
@@ -181,9 +194,9 @@ int main() {
           bot.me.id);
 
       // Crear un vector de comandos
-      std::vector<dpp::slashcommand> comandos = {unirme,  llamar,      batalla,
-                                                 pokedex, menu_ataque, atacar,
-                                                 cambio,  finalizar};
+      std::vector<dpp::slashcommand> comandos = {
+          unirme,      llamar, batalla, pokedex,  menu_ataque,
+          mis_pokemon, atacar, cambio,  finalizar};
 
       // Registrar todos los comandos
       for (auto &comando : comandos) {
