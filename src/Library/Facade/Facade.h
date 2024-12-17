@@ -41,6 +41,8 @@ public:
   std::string atacar(std::string nombreEnt, std::string nombreMov);
   std::string mostrarPokedex();
   std::string desplegarMenuAtaque(std::string nombreEnt);
+  std::string cambiarPokemon(std::string nombrePokemon,
+                             std::string nombreEntrenador);
 };
 
 #endif // FACADE_H

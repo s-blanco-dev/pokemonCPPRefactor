@@ -56,7 +56,7 @@ std::string Batalla::atacar(std::shared_ptr<Entrenador> &atacante,
                             Movimiento &ataque) {
   try {
     std::string mensaje;
-    verificarTurno(atacante); // verifica que sea el turno del entrenador
+    esTurnoDe(atacante); // verifica que sea el turno del entrenador
 
     auto defensor = obtenerDefensor(atacante); // obtiene el entrenador defensor
     auto pokemonAtacante = atacante->getPokemonActivo();
@@ -99,7 +99,7 @@ std::string Batalla::seleccionarPokemon(const std::shared_ptr<Entrenador> &ente,
   try {
     auto copiaPokemon = std::make_shared<Pokemon>(pok);
 
-    verificarTurno(ente);
+    esTurnoDe(ente);
 
     ente->agregarPokemon(copiaPokemon);   // Usar la copia
     pokedex->removePokemon(pok);          // Eliminar el original de la Pokédex
@@ -125,8 +125,31 @@ Batalla::obtenerEntrenadorPorNombre(std::string nombre) {
   return entrenador_2;
 }
 
-bool Batalla::esTurnoDe(const Entrenador &entrenador) {
-  return (entrenador.getNombre() == entrenadorActual->getNombre());
+void Batalla::esTurnoDe(const std::shared_ptr<Entrenador> &entrenador) {
+  if (!(entrenador->getNombre() == entrenadorActual->getNombre())) {
+    throw std::invalid_argument(
+        format("No es tu turno, {}!", entrenador->getNombre()));
+  }
+}
+
+std::string
+Batalla::cambiarPokemonActivo(std::shared_ptr<Entrenador> &entrenador,
+                              std::shared_ptr<Pokemon> &pokemon) {
+  try {
+    if (pokemon->getNombre() == entrenador->getPokemonActivo()->getNombre()) {
+      throw invalid_argument(
+          format(":prohibited:**{}** ya es tu pokemon activo:prohibited:",
+                 pokemon->getNombre()));
+    }
+
+    esTurnoDe(entrenador);
+    entrenador->setPokemonActivo(pokemon);
+    return format("**{}** ha llamado a **{}** a la batalla:exclamation:\n",
+                  entrenador->getNombre(), pokemon->getNombre());
+
+  } catch (std::exception &e) {
+    return e.what();
+  }
 }
 
 // METODOS PRIVADOS
@@ -148,13 +171,6 @@ void Batalla::siguienteTurno() {
 // Auxiliares de atacar()
 //---
 
-void Batalla::verificarTurno(const std::shared_ptr<Entrenador> &atacante) {
-  if (!esTurnoDe(*atacante)) {
-    throw std::invalid_argument(
-        format("No es tu turno, {}!", atacante->getNombre()));
-  } // verifica que sea el turno del entrenador
-}
-
 void Batalla::verificarCondicionesPokemonActivo(
     const std::shared_ptr<Entrenador> &entrenador) {
   if (entrenador->getPokemonActivo() == nullptr) {
@@ -175,8 +191,14 @@ Batalla::obtenerDefensor(const std::shared_ptr<Entrenador> &atacante) const {
                                                               : entrenador_1;
 }
 
-void Batalla::verificarCondicionesAtaque(
-    const std::shared_ptr<Entrenador> &atacante, Movimiento &ataque) const {
+void Batalla::verificarCondicionesAtaque(std::shared_ptr<Entrenador> &atacante,
+                                         Movimiento &ataque) const {
+
+  if (!atacante->movimientoEstaPresente(ataque)) {
+    throw invalid_argument(
+        "El movimiento no está presente en tu pokemon activo!\n");
+  }
+
   if (ataque.esEspecial() && atacante->getContadorEspecial() != 0) {
     throw invalid_argument(
         format(":prohibited: Debes esperar **{}** turnos más para usar un "

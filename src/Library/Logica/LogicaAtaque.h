@@ -32,7 +32,7 @@ public:
   std::string aplicarAtaque(std::shared_ptr<Entrenador> &atacante,
                             const std::shared_ptr<Entrenador> &defensor,
                             const Movimiento &ataque);
-  EEstado verificarEstadoPokemon(std::shared_ptr<Pokemon> pok);
+  EEstado verificarEstadoPokemon(std::shared_ptr<Pokemon> &pok);
 };
 
 #endif // LOGICAATAQUE_H

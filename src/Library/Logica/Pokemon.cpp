@@ -5,92 +5,59 @@
 #include <iostream>
 using namespace std;
 
-
 // GETTERS y SETTERS
 // -------------------------
-string Pokemon::getNombre() const{
-    return this->nombre;
-}
+string Pokemon::getNombre() const { return this->nombre; }
 
-bool Pokemon::isDebil() const {
-    return this->debil;
-}
+bool Pokemon::isDebil() const { return this->debil; }
 
-int Pokemon::getHP(){
-    return this->hP;
-}
+int Pokemon::getHP() { return this->hP; }
 
-int Pokemon::getHPMax() const{
-    return this->hPMax;
-}
+int Pokemon::getHPMax() const { return this->hPMax; }
 
-void Pokemon::setHP(int hP) {
-    this->hP = hP;
-}
+void Pokemon::setHP(int hP) { this->hP = hP; }
 
-void Pokemon::setDebil(bool debil) {
-    this->debil = debil;
-}
+void Pokemon::setDebil(bool debil) { this->debil = debil; }
 
-ETipos Pokemon::getTipo() const{
-    return this->tipo;
-}
+ETipos Pokemon::getTipo() const { return this->tipo; }
 
-EEstado Pokemon::getEstado() const {
-    return this->estado;
-}
+EEstado Pokemon::getEstado() const { return this->estado; }
 
-void Pokemon::setEstado(EEstado estado) {
-    this->estado = estado;
-}
+void Pokemon::setEstado(EEstado estado) { this->estado = estado; }
 
-int Pokemon::getTurnosDormido() {
-    return this->turnosDormido;
-}
+int Pokemon::getTurnosDormido() { return this->turnosDormido; }
 
-void Pokemon::setTurnosDormido(int turnos) {
-    this->turnosDormido = turnos;
-}
+void Pokemon::setTurnosDormido(int turnos) { this->turnosDormido = turnos; }
 
+vector<Movimiento> &Pokemon::getMovimientos() { return this->movimientos; }
 
-vector<Movimiento>& Pokemon::getMovimientos() {
-    return this->movimientos;
-}
+int Pokemon::getValorAtaque() const { return this->valorAtaque; }
 
-int Pokemon::getValorAtaque() const {
-    return this->valorAtaque;
-}
-
-int Pokemon::getValorDefensa() const {
-    return this->valorDefensa;
-}
+int Pokemon::getValorDefensa() const { return this->valorDefensa; }
 
 int Pokemon::getValorAtaqueEspecial() const {
-    return this->valorAtaqueEspecial;
+  return this->valorAtaqueEspecial;
 }
 
 int Pokemon::getValorDefensaEspecial() const {
-    return this->valorDefensaEspecial;
+  return this->valorDefensaEspecial;
 }
 
 // CONSTRUCTOR
 // -------------------------
 Pokemon::Pokemon() {
-    this->debil = false;
-    this->turnosDormido = 0;
+  this->estado = EEstado::NORMAL;
+  this->debil = false;
+  this->turnosDormido = 0;
 }
 
 // METODOS PUBLICOS
 // -------------------------
 
 void Pokemon::recibirDanio(int danio) {
-    this->hP = max(hP - danio, 0);
+  this->hP = max(hP - danio, 0);
 
-    if (this->hP == 0) {
-        this-> debil = true;
-    }
+  if (this->hP == 0) {
+    this->debil = true;
+  }
 }
-
-
-
-

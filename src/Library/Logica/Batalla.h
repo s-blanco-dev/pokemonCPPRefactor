@@ -28,12 +28,11 @@ private:
   // METODOS PRIVADOS
   bool finBatalla();
   void siguienteTurno();
-  void verificarTurno(const std::shared_ptr<Entrenador> &atacante);
   void verificarCondicionesPokemonActivo(
       const std::shared_ptr<Entrenador> &entrenador);
   std::shared_ptr<Entrenador>
   obtenerDefensor(const std::shared_ptr<Entrenador> &atacante) const;
-  void verificarCondicionesAtaque(const std::shared_ptr<Entrenador> &entrenador,
+  void verificarCondicionesAtaque(std::shared_ptr<Entrenador> &entrenador,
                                   Movimiento &ataque) const;
   void verificarEstadosPokemon(std::shared_ptr<Pokemon> &pokemon);
 
@@ -50,7 +49,9 @@ public:
                                  Pokemon &pok);
   std::shared_ptr<Entrenador> obtenerEntrenadorPorNombre(std::string nombre);
 
-  bool esTurnoDe(const Entrenador &entrenador);
+  void esTurnoDe(const std::shared_ptr<Entrenador> &atacante);
+  std::string cambiarPokemonActivo(std::shared_ptr<Entrenador> &entrenador,
+                                   std::shared_ptr<Pokemon> &pokemon);
 };
 
 #endif // BATALLA_H

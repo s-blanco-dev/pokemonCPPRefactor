@@ -6,8 +6,10 @@
 
 #include <algorithm>
 #include <bits/streambuf_iterator.h>
+#include <memory>
 
 #include "../Items/SuperPocion.h"
+#include "Movimiento.h"
 
 // CONSTRUCTOR
 // -------------------------
@@ -78,4 +80,24 @@ void Entrenador::removerItem(IItem *item) {
 bool Entrenador::todosPokemonDebiles() const {
   return std::all_of(pokemons.begin(), pokemons.end(),
                      [](const auto &p) { return p->isDebil(); });
+}
+
+std::shared_ptr<Pokemon>
+Entrenador::buscarPokemonPorNombre(std::string nombrePokemon) {
+  for (auto pokemon : this->pokemons) {
+    if (pokemon->getNombre() == nombrePokemon) {
+      return pokemon;
+    }
+  }
+  return nullptr;
+}
+
+bool Entrenador::movimientoEstaPresente(Movimiento &mov) {
+  auto movimientos = this->pokemonActivo->getMovimientos();
+  for (auto &movo : movimientos) {
+    if (mov.getNombre() == movo.getNombre()) {
+      return true;
+    }
+  }
+  return false;
 }

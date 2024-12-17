@@ -3,6 +3,7 @@
 //
 
 #include "Facade.h"
+#include <exception>
 #include <format>
 #include <stdexcept>
 #include <string>
@@ -123,10 +124,7 @@ std::string Facade::desplegarMenuAtaque(std::string nombreEnt) {
                  ente->getPokemonActivo()->getNombre()));
     }
 
-    if (!batallaActual->esTurnoDe(*ente)) {
-      throw std::invalid_argument(
-          format("No es tu turno, {}:exclamation:", nombreEnt));
-    }
+    batallaActual->esTurnoDe(ente);
 
     return menuActual->menuPokemonAtaque(*ente);
   } catch (std::exception &e) {
@@ -160,6 +158,37 @@ std::string Facade::atacar(std::string nombreEnt, std::string nombreMov) {
     }
 
     return batallaActual->atacar(ente, *ataque);
+  } catch (std::exception &e) {
+    return e.what();
+  }
+}
+
+std::string Facade::cambiarPokemon(std::string nombrePokemon,
+                                   std::string nombreEntrenador) {
+  try {
+    if (!existeBatalla()) {
+      throw std::invalid_argument(
+          ":prohibited:**No hay batalla en curso**:prohibited:");
+    }
+
+    auto entrenador =
+        batallaActual->obtenerEntrenadorPorNombre(nombreEntrenador);
+
+    if (entrenador->getPokemonActivo() == nullptr) {
+      throw std::invalid_argument(
+          format("No tienes ningún pokemon activo, {}:exclamation:",
+                 entrenador->getNombre()));
+    }
+
+    auto pokemonNuevo = entrenador->buscarPokemonPorNombre(nombrePokemon);
+
+    if (pokemonNuevo == nullptr) {
+      throw std::invalid_argument(
+          "No tienes un pokemon con ese nombre:exclamation:\n");
+    }
+
+    return batallaActual->cambiarPokemonActivo(entrenador, pokemonNuevo);
+
   } catch (std::exception &e) {
     return e.what();
   }

@@ -57,7 +57,7 @@ LogicaAtaque::aplicarAtaque(std::shared_ptr<Entrenador> &atacante,
   return mensaje;
 }
 
-EEstado LogicaAtaque::verificarEstadoPokemon(std::shared_ptr<Pokemon> pok) {
+EEstado LogicaAtaque::verificarEstadoPokemon(std::shared_ptr<Pokemon> &pok) {
   if (pok->getTurnosDormido() != 0) {
     pok->setTurnosDormido(pok->getTurnosDormido() - 1);
     return EEstado::DORMIDO;
@@ -100,6 +100,10 @@ int LogicaAtaque::calcularDanioBase(const std::shared_ptr<Pokemon> &atacante,
 
 std::string LogicaAtaque::aplicarEfectosEstado(std::shared_ptr<Pokemon> pok,
                                                const Movimiento &ataque) {
+
+  if (pok->getEstado() == EEstado::DORMIDO && pok->getTurnosDormido() == 0) {
+    pok->setEstado(EEstado::NORMAL);
+  }
 
   if (pok->getEstado() == EEstado::NORMAL && ataque.esEspecial()) {
     pok->setEstado(ataque.getEfecto());
