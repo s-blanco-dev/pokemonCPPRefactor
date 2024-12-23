@@ -9,6 +9,7 @@
 #include "../Logica/Batalla.h"
 #include "../Logica/Entrenador.h"
 #include <memory>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -25,17 +26,20 @@ private:
   Facade();
 
   void existeBatalla();
-  Entrenador *buscarEntrenadorPorNombre(std::string nombre);
-  static Movimiento *buscarMovimientoPorNombre(std::string nombre,
-                                               Entrenador ente);
+  std::optional<Entrenador> buscarEntrenadorPorNombre(std::string nombre);
+  static std::optional<Movimiento> buscarMovimientoPorNombre(std::string nombre,
+                                                             Entrenador ente);
   void existeEntrenador(const std::shared_ptr<Entrenador> &ente);
   void tienePokemonActivo(const std::shared_ptr<Entrenador> &ente);
+  IItem *obtenerItemPorNombre(const std::shared_ptr<Entrenador> &ente,
+                              std::string nombreItem);
 
 public:
   static Facade *getInstance(); // instancia única de Singleton
   static void
   resetInstance(); // Resetea la instancia (para nueva batalla desde cero)
   ~Facade();       // Destructor
+  Batalla *getBatalla();
 
   std::string unirBatalla(std::string nombreEntrenador);
   std::string seleccionarPokemon(std::string nombrePokemon,
@@ -47,6 +51,7 @@ public:
   std::string cambiarPokemon(std::string nombrePokemon,
                              std::string nombreEntrenador);
   std::string misPokemon(std::string nombreEntrenador);
+  std::string usarItem(std::string nombreEntrenador, std::string nombreItem);
 };
 
 #endif // FACADE_H

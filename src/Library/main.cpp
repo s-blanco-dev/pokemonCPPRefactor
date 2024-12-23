@@ -142,6 +142,22 @@ int main() {
   });
   ;
 
+  // USAR ITEM
+  bot.on_slashcommand([&bot](const dpp::slashcommand_t &event) {
+    if (event.command.get_command_name() == "usar") {
+      try {
+        std::string nombreUsuario = event.command.usr.username;
+        std::string nombreItem =
+            std::get<std::string>(event.get_parameter("item"));
+        event.reply(Facade::getInstance()->usarItem(nombreUsuario, nombreItem));
+      } catch (const std::bad_variant_access &e) {
+        event.reply(
+            "Error: El parámetro proporcionado no es un string válido.");
+      }
+    }
+  });
+  ;
+
   // COMANDO FINALIZAR BATALLA | **EXPERIMENTAL**
   bot.on_slashcommand([](const dpp::slashcommand_t &event) {
     if (event.command.get_command_name() == "finalizar") {
@@ -189,14 +205,21 @@ int main() {
                               true) // Parámetro obligatorio
       );
 
+      dpp::slashcommand usar("usar", "Utiliza un item del inventario",
+                             bot.me.id);
+      usar.add_option(
+          dpp::command_option(dpp::co_string, "item", "Nombre del item",
+                              true) // Parámetro obligatorio
+      );
+
       dpp::slashcommand finalizar(
           "finalizar", "Reinicia el entorno para iniciar una nueva batalla",
           bot.me.id);
 
       // Crear un vector de comandos
       std::vector<dpp::slashcommand> comandos = {
-          unirme,      llamar, batalla, pokedex,  menu_ataque,
-          mis_pokemon, atacar, cambio,  finalizar};
+          unirme,      llamar, batalla, pokedex,   menu_ataque,
+          mis_pokemon, atacar, cambio,  finalizar, usar};
 
       // Registrar todos los comandos
       for (auto &comando : comandos) {

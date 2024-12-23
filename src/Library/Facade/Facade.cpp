@@ -6,6 +6,7 @@
 #include <exception>
 #include <format>
 #include <memory>
+#include <optional>
 #include <stdexcept>
 #include <string>
 #include <vector>
@@ -43,6 +44,8 @@ Facade::~Facade() {
   delete this->batallaActual;
   delete this->menuActual; // Liberar memoria asignada dinámicamente
 }
+
+Batalla *Facade::getBatalla() { return this->batallaActual; } // Para los test
 
 // METODOS PUBLICOS
 // -------------------------
@@ -136,8 +139,10 @@ std::string Facade::atacar(std::string nombreEnt, std::string nombreMov) {
 
     tienePokemonActivo(ente);
 
-    auto ataque = buscarMovimientoPorNombre(nombreMov, *ente);
-    if (ataque == nullptr) {
+    std::optional<Movimiento> ataque =
+        buscarMovimientoPorNombre(nombreMov, *ente);
+
+    if (!ataque) {
       throw std::invalid_argument("Movimiento no encontrado!");
     }
 
@@ -190,6 +195,30 @@ std::string Facade::misPokemon(std::string nombreEntrenador) {
   }
 }
 
+std::string Facade::usarItem(std::string nombreEntrenador,
+                             std::string nombreItem) {
+  try {
+    existeBatalla();
+
+    std::shared_ptr<Entrenador> entrenador =
+        batallaActual->obtenerEntrenadorPorNombre(nombreEntrenador);
+
+    existeEntrenador(entrenador);
+    tienePokemonActivo(entrenador);
+
+    IItem *item = obtenerItemPorNombre(entrenador, nombreItem);
+
+    batallaActual->usarItem(entrenador, *item);
+
+    return format(
+        "**{}** ha usado *{}* en **{}**:exclamation:", nombreEntrenador,
+        nombreItem, entrenador->getPokemonActivo()->getNombre());
+
+  } catch (std::exception &e) {
+    return e.what();
+  }
+}
+
 // METODOS PRIVADOS
 // -------------------------
 
@@ -200,25 +229,26 @@ void Facade::existeBatalla() {
   }
 }
 
-Entrenador *Facade::buscarEntrenadorPorNombre(std::string nombre) {
+std::optional<Entrenador>
+Facade::buscarEntrenadorPorNombre(std::string nombre) {
   for (Entrenador &ent : this->listaEspera) {
     if (nombre == ent.getNombre()) {
-      return &ent;
+      return ent;
     }
   }
-  return nullptr;
+  return std::nullopt;
 }
 
-Movimiento *Facade::buscarMovimientoPorNombre(std::string nombre,
-                                              Entrenador ente) {
+std::optional<Movimiento> Facade::buscarMovimientoPorNombre(std::string nombre,
+                                                            Entrenador ente) {
   std::vector<Movimiento> &movs =
       ente.obtenerMovimientosPokemonActivo(); // ME HABÍA OLVIDADO DE PONER EL
                                               // OPERADOR DE REFERENCIACIÓN (&)
   for (auto &mov : movs) {
     if (nombre == mov.getNombre())
-      return &mov;
+      return mov;
   }
-  return nullptr;
+  return std::nullopt;
 }
 
 void Facade::existeEntrenador(const std::shared_ptr<Entrenador> &ente) {
@@ -232,4 +262,16 @@ void Facade::tienePokemonActivo(const std::shared_ptr<Entrenador> &ente) {
     throw std::invalid_argument(format(
         "No tienes ningún pokemon activo, {}:exclamation:", ente->getNombre()));
   }
+}
+
+IItem *Facade::obtenerItemPorNombre(const std::shared_ptr<Entrenador> &ente,
+                                    std::string nombreItem) {
+  auto items = ente->getItems();
+
+  for (IItem *item : items) {
+    if (item->getNombre() == nombreItem) {
+      return item;
+    }
+  }
+  return nullptr;
 }

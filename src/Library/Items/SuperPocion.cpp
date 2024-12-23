@@ -7,26 +7,17 @@
 using namespace std;
 
 // GETTERS
-string SuperPocion::getNombre() const{
-    return nombre;
-}
+string SuperPocion::getNombre() const { return nombre; }
 
-string SuperPocion::getDescripcion() const {
-    return descripcion;
-}
+string SuperPocion::getDescripcion() const { return descripcion; }
 
 // CONSTRUCTOR
 SuperPocion::SuperPocion() {
-    this->nombre = "SuperPocion";
-    this->descripcion = "Poción que marcha joya";
+  this->nombre = "SuperPocion";
+  this->descripcion = "Poción que marcha joya";
 }
 
 // METODOS PUBLICOS
-void SuperPocion::usarIItem(Pokemon& pokemon) {
-    pokemon.setHP(pokemon.getHP() + 20);
+void SuperPocion::usarIItem(Pokemon &pokemon) {
+  pokemon.setHP(pokemon.getHP() + 70);
 }
-
-
-
-
-

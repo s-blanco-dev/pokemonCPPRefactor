@@ -16,6 +16,7 @@
 // Prueba para iniciarBatalla
 TEST(BatallaTest, IniciarBatalla) {
   // Crear los entrenadores y la batalla
+  Pokedex::resetInstance();
   auto entrenador1 = std::make_shared<Entrenador>("Ash");
   auto entrenador2 = std::make_shared<Entrenador>("Gary");
 
@@ -39,6 +40,7 @@ TEST(BatallaTest, IniciarBatalla) {
 // Prueba para atacar (ataque válido)
 TEST(BatallaTest, Atacar_Exitoso) {
   // Crear los entrenadores y la batalla
+  Pokedex::resetInstance();
   auto entrenador1 = std::make_shared<Entrenador>("Ash");
   auto entrenador2 = std::make_shared<Entrenador>("Gary");
 
@@ -65,6 +67,7 @@ TEST(BatallaTest, Atacar_Exitoso) {
 
 TEST(BatallaTest, MovimientoNoPresente) {
   // Crear los entrenadores y la batalla
+  Pokedex::resetInstance();
   auto entrenador1 = std::make_shared<Entrenador>("Ash");
   auto entrenador2 = std::make_shared<Entrenador>("Gary");
 
@@ -91,6 +94,7 @@ TEST(BatallaTest, MovimientoNoPresente) {
 // Prueba para atacar fuera de turno
 TEST(BatallaTest, Atacar_FueraDeTurno) {
   // Crear los entrenadores y la batalla
+  Pokedex::resetInstance();
   auto entrenador1 = std::make_shared<Entrenador>("Ash");
   auto entrenador2 = std::make_shared<Entrenador>("Gary");
 
@@ -116,6 +120,7 @@ TEST(BatallaTest, Atacar_FueraDeTurno) {
 // Prueba para seleccionarPokemon (válido)
 TEST(BatallaTest, SeleccionarPokemon_Exitoso) {
   // Crear los entrenadores y la batalla
+  Pokedex::resetInstance();
   auto entrenador1 = std::make_shared<Entrenador>("Ash");
   auto entrenador2 = std::make_shared<Entrenador>("Gary");
 
@@ -139,6 +144,7 @@ TEST(BatallaTest, SeleccionarPokemon_Exitoso) {
 // Prueba para verificar estados del Pokémon
 TEST(BatallaTest, VerificarEstadoPokemon) {
   // Crear los entrenadores y la batalla
+  Pokedex::resetInstance();
   auto entrenador1 = std::make_shared<Entrenador>("Ash");
   auto entrenador2 = std::make_shared<Entrenador>("Gary");
 
@@ -163,6 +169,7 @@ TEST(BatallaTest, VerificarEstadoPokemon) {
 
 TEST(BatallaTest, ataqueAplicaEfecto) {
 
+  Pokedex::resetInstance();
   auto entrenador1 = std::make_shared<Entrenador>("Ash");
   auto entrenador2 = std::make_shared<Entrenador>("Gary");
 
@@ -184,6 +191,7 @@ TEST(BatallaTest, ataqueAplicaEfecto) {
 }
 
 TEST(BatallaTest, cambiarPokemonExitoso) {
+  Pokedex::resetInstance();
   auto entrenador1 = std::make_shared<Entrenador>("Ash");
   auto entrenador2 = std::make_shared<Entrenador>("Gary");
 
