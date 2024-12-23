@@ -58,9 +58,10 @@ std::string Batalla::atacar(std::shared_ptr<Entrenador> &atacante,
     std::string mensaje;
     esTurnoDe(atacante); // verifica que sea el turno del entrenador
 
-    auto defensor = obtenerDefensor(atacante); // obtiene el entrenador defensor
-    auto pokemonAtacante = atacante->getPokemonActivo();
-    auto pokemonDefensor = defensor->getPokemonActivo();
+    std::shared_ptr<Entrenador> defensor =
+        obtenerDefensor(atacante); // obtiene el entrenador defensor
+    std::shared_ptr<Pokemon> pokemonAtacante = atacante->getPokemonActivo();
+    std::shared_ptr<Pokemon> pokemonDefensor = defensor->getPokemonActivo();
 
     verificarCondicionesPokemonActivo(atacante);
     verificarCondicionesPokemonActivo(defensor);
@@ -150,6 +151,13 @@ Batalla::cambiarPokemonActivo(std::shared_ptr<Entrenador> &entrenador,
   } catch (std::exception &e) {
     return e.what();
   }
+}
+
+void Batalla::usarItem(std::shared_ptr<Entrenador> &ente, IItem &item) {
+  esTurnoDe(ente);
+  auto pokActivo = ente->getPokemonActivo();
+
+  item.usarIItem(*pokActivo);
 }
 
 // METODOS PRIVADOS

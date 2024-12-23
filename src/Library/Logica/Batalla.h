@@ -10,6 +10,7 @@
 #include "Entrenador.h"
 #include "LogicaAtaque.h"
 #include "Movimiento.h"
+#include "Pokemon.h"
 #include <memory>
 #include <string>
 
@@ -52,6 +53,7 @@ public:
   void esTurnoDe(const std::shared_ptr<Entrenador> &atacante);
   std::string cambiarPokemonActivo(std::shared_ptr<Entrenador> &entrenador,
                                    std::shared_ptr<Pokemon> &pokemon);
+  void usarItem(std::shared_ptr<Entrenador> &ente, IItem &item);
 };
 
 #endif // BATALLA_H
