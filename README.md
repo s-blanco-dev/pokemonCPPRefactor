@@ -45,7 +45,7 @@ Sigue los pasos a continuación para compilar el proyecto:
 
 ## Ejecución
 
-Después de construir el proyecto, puedes ejecutar el binario generado (dependiendo de la configuración de tu proyecto).
+Después de construir el proyecto, puedes ejecutar el binario generado en `build`:
    
    ```bash
    ./pokemonCPPRefactor
