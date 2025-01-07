@@ -219,6 +219,22 @@ std::string Facade::usarItem(std::string nombreEntrenador,
   }
 }
 
+std::string Facade::menuItems(std::string nombreEntrenador) {
+  try {
+    existeBatalla();
+
+    std::shared_ptr<Entrenador> entrenador =
+        batallaActual->obtenerEntrenadorPorNombre(nombreEntrenador);
+
+    existeEntrenador(entrenador);
+
+    return menuActual->menuItems(*entrenador);
+
+  } catch (std::exception &e) {
+    return e.what();
+  }
+}
+
 // METODOS PRIVADOS
 // -------------------------
 

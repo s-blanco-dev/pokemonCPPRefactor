@@ -7,6 +7,8 @@
 #include "../Contenedores/Pokedex.h"
 #include "../Enums/EnumTools.h"
 #include "../Logica/Entrenador.h"
+#include <string>
+#include <vector>
 
 class Menu {
 private:
@@ -18,6 +20,7 @@ public:
   std::string mostrarPokedex();
   std::string listarPokemonsEntrenador(const Entrenador &ente);
   std::string menuPokemonAtaque(Entrenador &ente);
+  std::string menuItems(const Entrenador &ente);
 };
 
 #endif // MENU_H

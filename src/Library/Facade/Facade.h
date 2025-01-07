@@ -52,6 +52,7 @@ public:
                              std::string nombreEntrenador);
   std::string misPokemon(std::string nombreEntrenador);
   std::string usarItem(std::string nombreEntrenador, std::string nombreItem);
+  std::string menuItems(std::string nombreEntrenador);
 };
 
 #endif // FACADE_H
