@@ -3,6 +3,7 @@
 #include <dpp/appcommand.h>
 #include <dpp/dpp.h>
 #include <iostream>
+#include <stdexcept>
 
 #include "Generador/GeneradorAleatorio.h"
 #include "Generador/GeneradorFijo.h"
@@ -79,6 +80,16 @@ int main() {
 
       std::string respuesta =
           Facade::getInstance()->desplegarMenuAtaque(nombreUsuario);
+      event.reply(respuesta);
+    }
+  });
+
+  // COMANDO MENU ITEMS
+  bot.on_slashcommand([](const dpp::slashcommand_t &event) {
+    if (event.command.get_command_name() == "inventario") {
+      std::string nombreUsuario = event.command.usr.username;
+
+      std::string respuesta = Facade::getInstance()->menuItems(nombreUsuario);
       event.reply(respuesta);
     }
   });
@@ -189,6 +200,9 @@ int main() {
       dpp::slashcommand menu_ataque("menu_ataque",
                                     "Desplegar el menú de ataque!", bot.me.id);
 
+      dpp::slashcommand inventario("inventario", "Desplegar el menú de items!",
+                                   bot.me.id);
+
       dpp::slashcommand mis_pokemon(
           "mis_pokemon", "Desplega la lista de pokemon del entrenador!",
           bot.me.id);
@@ -218,8 +232,8 @@ int main() {
 
       // Crear un vector de comandos
       std::vector<dpp::slashcommand> comandos = {
-          unirme,      llamar, batalla, pokedex,   menu_ataque,
-          mis_pokemon, atacar, cambio,  finalizar, usar};
+          unirme, llamar, batalla,   pokedex, menu_ataque, mis_pokemon,
+          atacar, cambio, finalizar, usar,    inventario};
 
       // Registrar todos los comandos
       for (auto &comando : comandos) {

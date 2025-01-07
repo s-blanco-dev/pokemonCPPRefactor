@@ -90,6 +90,17 @@ std::string Menu::listarPokemonsEntrenador(const Entrenador &ente) {
   return mensaje;
 }
 
+std::string Menu::menuItems(const Entrenador &ente) {
+  std::string mensaje = format("**Inventario de {}**:\n", ente.getNombre());
+  auto items = ente.getItems();
+
+  for (auto item : items) {
+    mensaje +=
+        format("- :test_tube: **{}**: {} [{}/{}]\n", item->getNombre(),
+               item->getDescripcion(), item->getUsos(), item->getUsosMax());
+  }
+  return mensaje;
+}
 // METODOS PRIVADOS
 // -------------------------
 

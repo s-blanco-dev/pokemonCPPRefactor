@@ -10,15 +10,16 @@
 using namespace std;
 
 class IItem {
-    public:
-    virtual ~IItem() = default; // DESTRUCTOR
+public:
+  virtual ~IItem() = default; // DESTRUCTOR
 
-    virtual string getNombre() const = 0;
-    virtual string getDescripcion() const = 0;
+  virtual string getNombre() const = 0;
+  virtual string getDescripcion() const = 0;
+  virtual int getUsos() const = 0;
+  virtual int getUsosMax() const = 0;
+  virtual void setUsos(int usos) = 0;
 
-    virtual void usarIItem(Pokemon& pokemon) = 0;
+  virtual void usarIItem(Pokemon &pokemon) = 0;
 };
 
-
-
-#endif //IITEM_H
+#endif // IITEM_H
