@@ -1,17 +1,18 @@
 #include "Facade/Facade.h"
 #include "Logica/Entrenador.h"
+#include <cstdlib>
 #include <dpp/appcommand.h>
 #include <dpp/dpp.h>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 #include "Generador/GeneradorAleatorio.h"
 #include "Generador/GeneradorFijo.h"
 
 // TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
 // click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
-const std::string BOT_TOKEN =
-    "MTMxNTI5MzY4MzQxMDY2NTU4Nw.GBhMJP.NEzdh74YaxbqNFW4IT-HI4w_aRetW0lisH4tq4";
+const std::string BOT_TOKEN = std::getenv("BOT_TOKEN");
 
 int main() {
   // TESTS PARA NO VOLVERME LOCO
